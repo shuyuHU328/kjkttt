@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+      "l-index-list": "/assets/lin-ui/dist/index-list/index",
+      "l-index-anchor": "/assets/lin-ui/dist/index-anchor/index",
+      "l-segment": "/assets/lin-ui/dist/segment/index",
+      "l-segment-item": "/assets/lin-ui/dist/segment-item/index"
+    }
+}

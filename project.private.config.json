@@ -13,6 +13,27 @@
                     "query": "",
                     "launchMode": "default",
                     "scene": null
+                },
+                {
+                    "name": "settings测试",
+                    "pathName": "pages/settings/settings",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "settings-remind测试",
+                    "pathName": "pages/settings-remind/settings-remind",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "welcome测试",
+                    "pathName": "pages/welcome/welcome",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
                 }
             ]
         }

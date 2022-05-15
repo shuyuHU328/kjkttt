@@ -1,0 +1,4 @@
+<view class="welcome_bg">
+    <image src="/assets/icons/welcome.png" mode="aspectFit" class="welcome_img"></image>
+    <image src="/assets/icons/welcome2.png" mode="aspectFit" class="welcome_img2" bindtap="userLogin"></image>
+</view>

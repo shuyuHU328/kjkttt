@@ -1,1 +1,83 @@
-/* pages/settings/settings.wxss */
+@import "welcome.wxss";
+
+.top-layer {
+    position: fixed;
+    z-index: 2;
+    /* width: 100%;
+    height: 100%; */
+}
+
+.bgimage {
+    position: fixed;
+    width: 600rpx;
+    z-index: -1;
+    bottom: 0rpx;
+    scale: 1.5;
+    left: 50%;
+    margin-left: -300rpx;
+    opacity: 0.5;
+}
+
+.settings_container {
+    position: relative;
+}
+
+/* .user_info {
+    height: 200rpx;
+} */
+
+.user_info_panel {
+    display: flex;
+    /* justify-content: space-evenly; */
+    align-items: center;
+    padding-top: 40rpx;
+    padding-bottom: 40rpx;
+}
+
+.user_info_text {
+    text-align: center;
+    margin-left: 40rpx;
+}
+
+.user_avatar {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50rpx;
+    margin-left: 80rpx;
+}
+
+.settings {
+    padding: 0rpx !important;
+}
+
+.settings_icons {
+    font-size: 60rpx !important;
+}
+
+.settings_text {
+    font-size: 30rpx;
+    /* margin-top: 10rpx;
+    margin-bottom: 10rpx; */
+    padding-top: 30rpx;
+}
+
+.settings_elem {
+    height: 250rpx;
+}
+
+.style_selector {
+    width: 400rpx;
+    min-height: 600rpx;
+    background: white;
+    border-radius: 10rpx;
+}
+
+.style_options {
+    display: flex;
+    padding: 20rpx 20rpx;
+    align-items: center;
+}
+
+.style_options_text {
+    padding-left: 40rpx;
+}

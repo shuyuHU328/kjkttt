@@ -1,0 +1,7 @@
+{
+    "usingComponents": {
+        "l-list": "/assets/lin-ui/dist/list",
+        "l-switch": "/assets/lin-ui/dist/switch",
+        "l-popup": "/assets/lin-ui/dist/popup"
+    }
+}

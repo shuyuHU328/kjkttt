@@ -1,0 +1,112 @@
+<!--pages/assignmentArrange/assignmentArrange.wxml-->
+<l-list gap="25" bindtap="gotoAssignmentArrange" title="创建新的任务" icon="edit" icon-size="60" icon-color="#f5c181" tag-color="#f5c181" tag-position="right" tag-shape="circle" tag-content="分配任务" l-class="assignmentAdd" l-content-class="bigger_text" />
+<view class="titleBox">
+    <l-card type="primary" plaintext="{{true}}" l-class="card">
+        <view>
+            <view class="title">
+                任务1
+                <text class="handler">来自：张三 2022.4.28</text>
+            </view>
+            <text class="content">
+                任务事项
+            </text>
+            <l-icon name="success" size="80" color="#43CD80" l-class="condition"></l-icon>
+        </view>
+    </l-card>
+</view>
+
+<l-popup show="{{noticeAdd}}" locked="{{true}}">
+    <!--优先级加载模板如下-->
+    <template name="low">
+        <view>
+            <l-icon l-class="button_set" name="down" color="#30e3ca" size="24" />
+        </view>
+    </template>
+
+    <template name="high">
+        <view>
+            <l-icon l-class="button_set" color="#ee5a5a" size="24" name="up" />
+        </view>
+    </template>
+
+    <view class="background">
+        <form>
+            <text>\n</text>
+            <!--防止输入未渲染-->
+            <block wx:if="{{noticeAdd==true}}">
+                <l-card plaintext="true">
+
+                    <l-input class="fix_text" bind:linblur="inputTitle" label="任务名称" placeholder="请输入任务" maxlength="100" label-layout="left" />
+
+                    <view class="textin">
+                        <l-textarea l-class="rej_overflow" border="{{false}}" auto-height="{{true}}" bind:linblur="inputArea" indicator="{{false}}" placeholder="安排个人任务" maxlength="600" />
+                    </view>
+                </l-card>
+            </block>
+            <text>\n</text>
+
+            <l-card plaintext="true">
+                <view bindtap="showCalendar">
+                    <l-list title="截止日期" gap="25" is-link="{{false}}">
+                        <view slot="right-section">
+                            {{year}}-{{month}}-{{date}}
+                        </view>
+                    </l-list>
+                </view>
+
+                <picker mode="time" value="{{time}}" start="00:00" end="24:00" bindchange="bindTimeChange">
+                    <l-list title="截止时间" gap="25" is-link="{{false}}">
+                        <view slot="right-section">
+                            {{time}}
+                        </view>
+                    </l-list>
+                </picker>
+            </l-card>
+            <text>\n</text>
+
+            <!--以下为按钮-->
+
+            <view style="text-align: center !important;">
+                <l-button size="medium" bg-color="#7494aa" shape="semicircle" bindtap="popUp" l-class="left_size">
+                    取消
+                </l-button>
+
+                <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset" l-class="right_size">提交</l-button>
+            </view>
+
+            <!--调用日历组件-->
+            <l-calendar color="#EEDD82" default-date="当前日期" show="{{ show_cal }}" confirm-text="确定" bind:linconfirm="upDate">
+            </l-calendar>
+
+        </form>
+    </view>
+</l-popup>
+
+<view class="titleBox">
+    <l-card type="primary" plaintext="{{true}}" l-class="card">
+        <view>
+            <view class="title">
+                任务2
+                <text class="handler">来自：张三 2022.4.28</text>
+            </view>
+            <text class="content">
+                任务事项
+            </text>
+            <!-- <l-icon name="notification" size="80" l-class="condition"></l-icon> -->
+        </view>
+    </l-card>
+</view>
+
+<view class="titleBox">
+    <l-card type="primary" plaintext="{{true}}" l-class="card">
+        <view>
+            <view class="title">
+                任务3
+                <text class="handler">来自：张三 2022.4.28</text>
+            </view>
+            <text class="content">
+                任务事项
+            </text>
+        </view>
+    </l-card>
+</view>

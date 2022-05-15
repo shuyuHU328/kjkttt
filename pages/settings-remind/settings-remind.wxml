@@ -1,0 +1,87 @@
+<view class="top-layer">
+
+    <!--临近DDL提醒&相关参数设置-->
+    <l-list title="临近DDL提醒" desc="距DDL一定时间内发送微信提醒" is-link="{{false}}" l-class="remind-entries">
+        <view slot="right-section" class="right-section">
+            <l-switch checked="{{isDDLRemindActive}}" bind:linchange="switchDDLRemindTime" color="#999" select-color="#FFA500" />
+        </view>
+    </l-list>
+    <!-- 临近DDL提醒-临近DDL提醒时间 -->
+    <picker wx:if="{{isDDLRemindActive}}" bindchange="setDDLRemindTime" value="{{DDLRemindTimeIndex == -1 ? 0 : DDLRemindTimeIndex}}" range="{{DDLRemindTimeOptions}}">
+        <l-list title="临近DDL提醒时间" l-class="suboption">
+            <view slot="right-section" class="right-section">
+                <text>{{DDLRemindTimeOptions[DDLRemindTimeIndex]}}</text>
+            </view>
+        </l-list>
+    </picker>
+    <!-- 临近DDL提醒-临近DDL提醒频率 -->
+    <picker wx:if="{{isDDLRemindActive}}" bindchange="setDDLRemindFrequency" value="{{DDLRemindFrequencyIndex}}" range="{{DDLRemindFrequencyOptions}}">
+        <l-list title="临近DDL提醒频率" l-class="suboption">
+            <view slot="right-section" class="right-section">
+                <text>{{DDLRemindFrequencyOptions[DDLRemindFrequencyIndex]}}</text>
+            </view>
+        </l-list>
+    </picker>
+
+
+    <!--固定时间点提醒&相关参数设置-->
+    <l-list title="固定时间点提醒" desc="每天的固定时间点发送当前尚未完成的所有待办提醒" is-link="{{false}}" l-class="remind-entries">
+        <view slot="right-section" class="right-section">
+            <l-switch checked="{{isFixedTimeRemindActive}}" bind:linchange="switchFixedTimeRemind" color="#999" select-color="#FFA500" />
+        </view>
+    </l-list>
+    <!-- 固定时间点提醒-固定提醒时间 -->
+    <picker wx:if="{{isFixedTimeRemindActive}}" mode="time" value="{{FixedTimeRemindTime}}" bindchange="setFixedTimeRemindTime">
+        <l-list title="固定提醒时间" l-class="suboption">
+            <view slot="right-section" class="right-section">
+                <text>{{"每天 " + FixedTimeRemindTime}}</text>
+            </view>
+        </l-list>
+    </picker>
+
+
+    <!--勿扰模式&相关参数设置-->
+    <l-list title="勿扰模式" desc="勿扰模式时间段内不会发送提醒" is-link="{{false}}" l-class="remind-entries">
+        <view slot="right-section" class="right-section">
+            <l-switch checked="{{isDNDModeActive}}" bind:linchange="switchDNDMode" color="#999" select-color="#FFA500" />
+        </view>
+    </l-list>
+    <!-- 勿扰模式-开始时间 -->
+    <picker wx:if="{{isDNDModeActive}}" mode="time" value="{{DNDModeStartTime}}" bindchange="setDNDModeStartTime">
+        <l-list title="开始时间" l-class="suboption">
+            <view slot="right-section" class="right-section">
+                <text>{{DNDModeStartTime}}</text>
+            </view>
+        </l-list>
+    </picker>
+    <!-- 勿扰模式-结束时间 -->
+    <picker wx:if="{{isDNDModeActive}}" mode="time" value="{{DNDModeEndTime}}" bindchange="setDNDModeEndTime">
+        <l-list title="结束时间" l-class="suboption">
+            <view slot="right-section" class="right-section">
+                <text>{{(DNDModeStartTime > DNDModeEndTime ? "次日 " : "") + DNDModeEndTime}}</text>
+            </view>
+        </l-list>
+    </picker>
+    <!-- 勿扰模式-重复 -->
+    <l-list wx:if="{{isDNDModeActive}}" title="重复" l-class="suboption" bind:lintap="tapDNDModeRepetition">
+        <view slot="right-section" class="right-section">
+            <text>{{}}</text>
+        </view>
+    </l-list>
+    <l-popup show="{{isDNDModeRepetitionPopup}}" content-align="bottom">
+        <view class="pop-up">
+            <view class="title">勾选以生效：</view>
+            <checkbox-group bindchange="setDNDModeRepetition">
+                <label wx:for="{{DNDModeRepetitionOptions}}" wx:key="value" class="option">
+                    <view>{{item.name}}</view>
+                    <view>
+                        <checkbox value="{{item.value}}" checked="{{item.checked}}" />
+                    </view>
+                </label>
+            </checkbox-group>
+        </view>
+    </l-popup>
+
+</view>
+
+<image src="https://s3.bmp.ovh/imgs/2022/04/30/9b5bb94f9eaf597a.png" class="bgimage" mode="aspectFit"></image>

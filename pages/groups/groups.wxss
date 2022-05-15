@@ -1,47 +1,275 @@
-.searchBoxOuter {
-    display: flex;
-    padding: 15rpx;
+.top-layer {
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+}
+
+.bgimage {
+    position: fixed;
+    width: 600rpx;
+    z-index: -1;
+    bottom: 0rpx;
+    scale: 1.5;
+    left: 50%;
+    margin-left: -300rpx;
+    opacity: 0.5;
+}
+
+.searchBarOuter {
     background: #EEDD82;
-    height: 60rpx;
-}
-
-.searchBoxInner {
-    display: flex;
-    background: white;
-    border-radius: 40rpx;
-    height: 60rpx;
-    width: 570rpx;
-}
-
-.searchInput {
-    margin-left: 20rpx;
-    height: 60rpx;
-    font-size: 40rpx;
-    width: 85%
-}
-
-.clearIcon {
-    display: flex;
-    height: 60rpx;
-    align-items: center;
-    margin-right: 20rpx;
-}
-
-
-.searchIcon {
-    width: 58rpx;
-    height: 58rpx;
-    margin-left: 8rpx;
-    margin-right: 8rpx;
+    height: 70rpx;
 }
 
 .groupAddIcon {
-    width: 58rpx;
-    height: 58rpx;
-    margin-left: 8rpx;
-    margin-right: 8rpx;
+    display: flex;
+    margin-left: -10rpx;
+    margin-right: 20rpx;
+    /* background: lightyellow; */
+    padding: 10rpx;
+    border-radius: 10rpx;
 }
 
-/* .clearIcon {
-    justify-content: flex-end;
-} */
+.groupAddIcon text {
+    margin-left: 10rpx;
+}
+
+.left_size {
+    /* font-size: larger; */
+    /* font-weight: bold; */
+    /* margin-right: 25rpx; */
+}
+
+.container_group view {
+    padding: 5rpx;
+    margin: 5rpx;
+}
+
+.container_group {
+    border: solid 4rpx lavender;
+    margin: 30rpx;
+    padding: 3rpx;
+    border-radius: 15rpx;
+    background-color: #FFEFD5;
+}
+
+.groupArrageButton {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    top: 16rpx;
+}
+
+.groupArrageButton-item {
+    width: 30%;
+    height: 90rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.groupArrageButton-item image {
+    width: 60rpx;
+    height: 60rpx;
+}
+
+.groupArrageButton-item text {
+    font-size: 24rpx;
+}
+
+.collapse {
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+}
+
+.groupIndex {
+    display: flex;
+    border: 4rpx solid lavender;
+    border-radius: 15px;
+    background-color: white;
+    width: 600rpx;
+    height: 400rpx;
+    border-radius: 15rpx;
+    justify-content: center;
+}
+
+.content {
+    color: #666;
+    font-size: 30rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    height: 500rpx;
+}
+
+.handler {
+    color: #666;
+    font-size: 30rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+}
+
+.titlebox {
+    font-size: 35rpx;
+    padding: 10rpx;
+    margin: 10rpx;
+    margin-top: 20rpx;
+    margin-bottom: 30rpx;
+    border-radius: 15rpx;
+    background-color: white;
+    width: 590rpx;
+    position: relative;
+    left: 8rpx
+}
+
+.title {
+    margin-top: 10rpx;
+    color: #000000;
+    font-size: 37rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    border-bottom: thin dashed #eadada;
+    padding: 4rpx;
+
+}
+
+.contentBox {
+    padding: 30rpx;
+    border-radius: 15rpx;
+    background-color: white;
+    width: 550rpx;
+    height: 500rpx;
+    position: relative;
+    left: 20rpx;
+    top: 10rpx;
+}
+
+.delete {
+    margin-top: 30rpx;
+}
+
+.noticeBox {
+    background-color: blanchedalmond;
+    border-radius: 15rpx;
+    width: 650rpx;
+    padding: 10rpx;
+}
+
+
+.closeBox {
+    background-color: lightgray;
+    border: solid 1rpx lightgray;
+    border-radius: 50rpx;
+    width: 70rpx;
+    position: relative;
+    left: 290rpx;
+}
+
+
+.groupArrageButton-item2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.groupArrageButton-item2 image {
+    width: 60rpx;
+    height: 60rpx;
+}
+
+.groupArrageButton-item2 text {
+    font-size: 24rpx;
+}
+
+
+
+/*
+  button_set为调整icon与文字在同一行
+  */
+.button_set {
+    /*
+    重点为下面两行
+    */
+    font-size: medium;
+    display: flex;
+    margin-right: 10rpx;
+    margin-left: 10rpx;
+}
+
+.title_button {
+    margin-right: 10rpx;
+}
+
+.clear_text {
+    font-size: 40px;
+    font-weight: bold;
+    height: 150rpx;
+}
+
+.bigger_text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.fix_text {
+    text-align: right;
+}
+
+/*
+   *  防止输入框超出屏幕
+   */
+.rej_overflow {
+    max-height: 300rpx;
+}
+
+
+.background {
+    width: 700rpx;
+    background-color: blanchedalmond;
+    border-radius: 15rpx;
+    position: relative;
+    bottom: 8rpx;
+    padding: 10rpx;
+}
+
+.right_size {
+    font-size: larger;
+    font-weight: bold;
+    margin-right: 25rpx;
+    position: relative;
+    bottom: 10rpx;
+    left: 30rpx;
+}
+
+.left_size {
+    font-size: larger;
+    font-weight: bold;
+    margin-right: 25rpx;
+    position: relative;
+    bottom: 10rpx;
+    right: 30rpx;
+}
+
+.size {
+    font-size: larger;
+    font-weight: bold;
+    margin-right: 25rpx;
+    position: relative;
+    bottom: 10rpx;
+}
+
+.list {
+    min-height: 100rpx !important;
+}

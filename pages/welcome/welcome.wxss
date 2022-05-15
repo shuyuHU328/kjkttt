@@ -1,0 +1,53 @@
+@keyframes welcome_img_anim {
+    from {
+        transform: translate(0rpx, -100rpx);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(0rpx, 0rpx);
+        opacity: 1;
+    }
+}
+
+@keyframes welcome_img2_anim {
+    from {
+        transform: translate(0rpx, 100rpx);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(0rpx, 0rpx);
+        opacity: 1;
+    }
+}
+
+
+page {
+    height: 100%;
+}
+
+.welcome_bg {
+    height: 100%;
+    background: #EEDD82;
+}
+
+.welcome_img {
+    width: 80%;
+    min-height: 100px;
+    position: fixed;
+    left: 50%;
+    margin-left: -40%;
+    animation-name: welcome_img_anim;
+    animation-duration: 2s;
+}
+
+.welcome_img2 {
+    width: 80%;
+    position: fixed;
+    bottom: 0rpx;
+    left: 50%;
+    margin-left: -40%;
+    animation-name: welcome_img2_anim;
+    animation-duration: 2s;
+}

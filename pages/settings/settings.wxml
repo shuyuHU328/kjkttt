@@ -1,1 +1,65 @@
-设置
+<view wx:if="{{!isWelcomeShown}}">
+    <view class="top-layer">
+
+        <view class="settings_container">
+            <view class="user_info">
+                <view class="user_info_panel">
+                    <image class="user_avatar" src="{{user.userInfo.avatarUrl}}"></image>
+                    <view class="user_info_text">
+                        <view style="font-size: 40rpx;">张三</view>
+                        <view style="color: grey;">211250xxx</view>
+                    </view>
+                </view>
+            </view>
+
+            <l-grid class="settings" show-border="{{true}}">
+                <l-grid-item key="one" slot="one" l-grid-item-class="settings_elem" bindtap="goRemind">
+                    <l-icon name="notification" l-class="settings_icons" color="{{colorList[style]}}" />
+                    <view class="settings_text">提醒</view>
+                </l-grid-item>
+                <l-grid-item key="two" slot="two" l-grid-item-class="settings_elem">
+                    <l-icon name="user" l-class="settings_icons" color="{{colorList[style]}}" />
+                    <view class="settings_text">修改个人信息</view>
+                </l-grid-item>
+                <l-grid-item key="three" slot="three" l-grid-item-class="settings_elem" bindtap="goStyleSelector">
+                    <l-icon name="eye" l-class="settings_icons" color="{{colorList[style]}}" />
+                    <view class="settings_text">风格</view>
+                </l-grid-item>
+                <l-grid-item key="four" slot="four" l-grid-item-class="settings_elem">
+                    <l-icon name="help" l-class="settings_icons" color="{{colorList[style]}}" />
+                    <view class="settings_text">帮助与反馈</view>
+                </l-grid-item>
+                <l-grid-item key="five" slot="five" l-grid-item-class="settings_elem">
+                    <l-icon name="warning" l-class="settings_icons" color="{{colorList[style]}}" />
+                    <view class="settings_text">关于</view>
+                </l-grid-item>
+                <l-grid-item key="six" slot="six" l-grid-item-class="settings_elem" bindtap="userLogout">
+                    <l-icon name="error" l-class="settings_icons" color="{{colorList[style]}}" />
+                    <view class="settings_text">退出登录</view>
+                </l-grid-item>
+            </l-grid>
+
+            <l-popup show="{{isStyleSelectorPopup}}">
+                <view class="style_selector">
+                    <radio-group bindchange="styleSelectorChange">
+                        <label class="style_options" wx:for="{{styleOptions}}" wx:key="value">
+                            <view>
+                                <radio value="{{item.value}}" checked="{{item.checked}}" color="{{colorList[item.value]}}" />
+                            </view>
+                            <view class="style_options_text">{{item.name}}</view>
+                        </label>
+                    </radio-group>
+                </view>
+            </l-popup>
+
+        </view>
+
+    </view>
+    <image src="https://s3.bmp.ovh/imgs/2022/04/30/9b5bb94f9eaf597a.png" class="bgimage" mode="aspectFit"></image>
+</view>
+
+<!--欢迎页-->
+<view wx:else class="welcome_bg">
+    <image src="/assets/icons/welcome.png" mode="aspectFit" class="welcome_img"></image>
+    <image src="/assets/icons/welcome2.png" mode="aspectFit" class="welcome_img2" bindtap="userLogin"></image>
+</view>

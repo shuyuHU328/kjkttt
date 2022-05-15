@@ -1,3 +1,21 @@
+
 {
-    "usingComponents": {}
+  "usingComponents": {
+    "l-collapse":"/assets/lin-ui/dist/collapse/index",
+    "l-collapse-item":"/assets/lin-ui/dist/collapse-item/index",
+    "l-capsule-bar":"/assets/lin-ui/dist/capsule-bar/index",
+    "l-popup":"/assets/lin-ui/dist/popup/index",
+    "l-button":"/assets/lin-ui/dist/button/index",
+    "l-input":"/assets/lin-ui/dist/input/index",
+    "l-card":"/assets/lin-ui/dist/card/index",
+    "l-icon":"/assets/lin-ui/dist/icon/index",
+    "l-switch":"/assets/lin-ui/dist/switch/index",
+    "l-list":"/assets/lin-ui/dist/list/index",
+    "l-segment":"/assets/lin-ui/dist/segment/index",
+    "l-segment-item":"/assets/lin-ui/dist/segment-item/index",
+    "l-calendar":"/assets/lin-ui/dist/calendar/index",
+    "l-textarea":"/assets/lin-ui/dist/textarea/index"
+  }
+  
 }
+

@@ -1,0 +1,142 @@
+/* pages/assignmentArrange/assignmentArrange.wxss */
+.titleBox {
+    padding-top: 30rpx;
+    border-radius: 15rpx;
+}
+
+.card {
+    background-color: blanchedalmond !important;
+}
+
+.assignmentAdd {
+    height: 130rpx !important;
+    /* background-color: blanchedalmond; */
+}
+
+.background {
+    width: 700rpx;
+    background-color: blanchedalmond;
+    border-radius: 15rpx;
+    position: relative;
+}
+
+.right_size {
+    font-size: larger;
+    font-weight: bold;
+    margin-right: 25rpx;
+    position: relative;
+    bottom: 10rpx;
+    left: 30rpx;
+}
+
+.left_size {
+    font-size: larger;
+    font-weight: bold;
+    margin-right: 25rpx;
+    position: relative;
+    bottom: 10rpx;
+    right: 30rpx;
+}
+
+/*
+  button_set为调整icon与文字在同一行
+  */
+.button_set {
+    /*
+    重点为下面两行
+    */
+    font-size: medium;
+    display: flex;
+    margin-right: 10rpx;
+    margin-left: 10rpx;
+}
+
+.title_button {
+    margin-right: 10rpx;
+}
+
+.clear_text {
+    font-size: 40px;
+    font-weight: bold;
+    height: 150rpx;
+}
+
+.bigger_text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.fix_text {
+    text-align: right;
+}
+
+/*
+   *  防止输入框超出屏幕
+   */
+.rej_overflow {
+    max-height: 300rpx;
+}
+
+.content {
+    color: #666;
+    font-size: 30rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+}
+
+.handler {
+    color: #666;
+    font-size: 30rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+}
+
+.titlebox {
+    font-size: 35rpx;
+    padding: 10rpx;
+    margin: 10rpx;
+    margin-top: 20rpx;
+    margin-bottom: 30rpx;
+    border-radius: 15rpx;
+    background-color: white;
+    width: 590rpx;
+    position: relative;
+    left: 8rpx
+}
+
+.title {
+    margin-top: 10rpx;
+    color: #000000;
+    font-size: 37rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    border-bottom: thin dashed #eadada;
+    padding: 4rpx;
+
+}
+
+.contentBox {
+    padding: 30rpx;
+    border-radius: 15rpx;
+    background-color: white;
+    width: 550rpx;
+    height: 500rpx;
+    position: relative;
+    left: 20rpx;
+    top: 10rpx;
+}
+
+.condition {
+    position: absolute;
+    left: 550rpx;
+    bottom: 110rpx;
+}

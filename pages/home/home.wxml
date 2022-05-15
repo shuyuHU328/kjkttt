@@ -1,0 +1,385 @@
+<view class="top-layer">
+
+    <!--pages/wxml/home.wxml-->
+    <l-list gap="25" bind:lintap="popUp" title="创建我的待办" icon="edit" icon-size="45" icon-color="#f5c181" tag-color="#f5c181" tag-position="right" tag-shape="circle" tag-content="即刻拥有你的计划表" l-class="clear_text" l-content-class="bigger_text" />
+    <l-popup show="{{pop_control}}" locked="{{true}}">
+        <!--优先级加载模板如下-->
+        <template name="low">
+            <view>
+                <l-icon l-class="button_set" name="down" color="#30e3ca" size="24" />
+            </view>
+        </template>
+
+        <template name="high">
+            <view>
+                <l-icon l-class="button_set" color="#ee5a5a" size="24" name="up" />
+            </view>
+        </template>
+
+
+        <l-card plaintext="true">
+            <form>
+                <text>\n</text>
+                <!--防止输入未渲染-->
+                <block wx:if="{{pop_control==true}}">
+                    <l-card plaintext="true">
+
+                        <l-input class="fix_text" bind:linblur="inputTitle" label="项目名称" placeholder="请输入待办事项" maxlength="100" label-layout="left" />
+
+                        <picker bindchange="bindPriChange" value="{{priority_index}}" range="{{state}}">
+                            <l-list title="优先级" gap="25" is-link="{{false}}" right-desc="{{state[priority_index]}}">
+                                <view slot="right-section">
+                                    <template is="{{priority[priority_index]}}"></template>
+                                </view>
+                            </l-list>
+                        </picker>
+
+                        <view class="textin">
+                            <l-textarea l-class="rej_overflow" border="{{false}}" auto-height="{{true}}" bind:linblur="inputArea" indicator="{{false}}" placeholder="详细说说吧……" maxlength="600" />
+                        </view>
+                    </l-card>
+                </block>
+                <text>\n</text>
+
+                <l-card plaintext="true">
+                    <view bindtap="showCalendar">
+                        <l-list title="日期" gap="25" is-link="{{false}}">
+                            <view slot="right-section">
+                                {{year}}-{{month}}-{{date}}
+                            </view>
+                        </l-list>
+                    </view>
+
+                    <picker mode="time" value="{{time}}" start="00:00" end="24:00" bindchange="bindTimeChange">
+                        <l-list title="时间" gap="25" is-link="{{false}}">
+                            <view slot="right-section">
+                                {{time}}
+                            </view>
+                        </l-list>
+                    </picker>
+                </l-card>
+                <text>\n</text>
+
+                <!--以下为按钮-->
+
+                <view style="text-align: center !important;">
+                    <l-button size="medium" bg-color="#7494aa" shape="semicircle" bindtap="popUp" l-class="left_size">
+                        取消
+                    </l-button>
+
+                    <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset">提交</l-button>
+                </view>
+
+                <!--调用日历组件-->
+                <l-calendar color="#EEDD82" default-date="当前日期" show="{{ show_cal }}" confirm-text="确定" bind:linconfirm="upDate">
+                </l-calendar>
+
+            </form>
+        </l-card>
+    </l-popup>
+
+    <!--公告模板-->
+    <template name="dashBoard">
+        <view class="dashboard_body">
+            <view class="dashboard_content">
+                <view class="dashboard_title">
+                    <l-icon name="notification" size="30" color="#47d6b6" l-class="title_button" />
+                    {{boardTitle}}
+                </view>
+                <view class="dashboard_group">
+                    来自{{group}} <text>\n</text> {{BoardTime}}
+                </view>
+            </view>
+            <l-collapse>
+                <l-collapse-item customTitle="{{true}}">
+                    <view slot="title">
+                        <view class="dashoboard_container">查看公告详情
+                            <l-icon l-class="button_set" name="down" size="20" color="#999" />
+                        </view>
+                    </view>
+                    <view class="standard_text">
+                        {{dashBoardDetailed}}
+                    </view>
+                    <view style="text-align: center;margin-top: 20rpx;margin-bottom: 20rpx;">
+                        <l-button width="560" bg-color="#47d6b6" l-class="button_set" shape="circle">
+                            <l-icon l-class="button_set" name="success" size="30" color="#fff" />
+                            确认收到
+                        </l-button>
+                    </view>
+                </l-collapse-item>
+            </l-collapse>
+        </view>
+    </template>
+
+
+    <!--任务模板-->
+    <template name="task">
+        <view class="dashboard_body">
+            <view class="dashboard_content">
+                <view class="dashboard_title">
+                    <!--根据紧急程度判断显示哪一个图标-->
+                    <l-icon wx:if="{{isUrgent}}" name="favor" size="35" color="red" l-class="title_button" />
+                    <l-icon wx:else name="eye" size="35" color="orange" l-class="title_button" />
+                    {{taskName}}
+                </view>
+                <view class="dashboard_group">
+                    来自{{group}}
+                    <text>\n</text>
+                    {{taskTime}}
+                </view>
+            </view>
+            <l-collapse>
+                <l-collapse-item customTitle="{{true}}">
+                    <view slot="title">
+                        <view class="dashoboard_container">查看任务
+                            <l-icon l-class="button_set" name="down" size="20" color="#999" />
+                        </view>
+                    </view>
+                    <view class="standard_text">
+                        {{taskDetailed}}
+                    </view>
+                    <view style="text-align: center;margin-top: 20rpx;margin-bottom: 20rpx;">
+
+                        <view class="buttons">
+                            <view>
+                                <l-button class="finish_button" height="100" shape="circle" bg-color="#FF8C00" bindtap="popUpFinish">
+                                    <l-icon l-class="button_set" name="success" size="50" color="#fff" />
+                                </l-button>
+                            </view>
+                            <view>
+                                <l-button class="urgent_button" height="100" shape="circle" bg-color="orange" bindtap="toUrgent">
+                                    <l-icon l-class="button_set" name="favor" size="50" color="#fff" />
+                                </l-button>
+                            </view>
+                            <!--如果不是小组任务就禁用后两个按钮-->
+                            <view>
+                                <l-button class="time_button" height="100" shape="circle" bg-color="#FF8C00" wx:if="{{isPersonalWork}}" bindtap="popUpChange">
+                                    <l-icon l-class="button_set" name="time" size="50" color="#fff" />
+                                </l-button>
+                            </view>
+                            <view>
+                                <l-button class="delete_button" height="100" shape="circle" bg-color="orange" wx:if="{{isPersonalWork}}" bindtap="popUpDelete">
+                                    <l-icon l-class="button_set" name="delete" size="50" color="#fff" />
+                                </l-button>
+                            </view>
+                        </view>
+                    </view>
+                </l-collapse-item>
+            </l-collapse>
+        </view>
+
+    </template>
+
+
+
+
+    <!--完成任务的弹出层-->
+    <l-popup show="{{popFinishControl}}" locked="{{true}}">
+        <l-card plaintext="true" type="primary" full="{{true}}">
+            <l-card plaintext="true" type="primary" full="{{true}}">
+                <text font-size="medium">这个任务完成了吗？</text>
+            </l-card>
+            <view style="text-align: center !important;">
+                <l-button size="medium" bg-color="#7494aa" shape="semicircle" bindtap="popUpFinish" class="left_size">
+                    取消
+                </l-button>
+                <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset">确定</l-button>
+            </view>
+        </l-card>
+    </l-popup>
+
+    <!--改时间的弹出层-->
+    <l-popup show="{{popChangeTimeControl}}" locked="{{true}}">
+        <l-card plaintext="true" full="{{true}}">
+            <form>
+                <text>\n</text>
+                <l-card plaintext="true">
+                    <view bindtap="showCalendar">
+                        <l-list title="日期" gap="25" is-link="{{false}}">
+                            <view slot="right-section">
+                                {{year}}-{{month}}-{{date}}
+                            </view>
+                        </l-list>
+                    </view>
+                    <picker mode="time" value="{{time}}" start="00:00" end="24:00" bindchange="bindTimeChange">
+                        <l-list title="时间" gap="25" is-link="{{false}}">
+                            <view slot="right-section">
+                                {{time}}
+                            </view>
+                        </l-list>
+                    </picker>
+                </l-card>
+                <text>\n</text>
+                <!--以下为按钮-->
+                <view style="text-align: center !important;">
+                    <l-button size="medium" bg-color="#7494aa" shape="semicircle" bindtap="popUpChange" class="left_size">
+                        取消
+                    </l-button>
+                    <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset">更改</l-button>
+                </view>
+
+                <!--调用日历组件-->
+                <l-calendar color="#EEDD82" default-date="当前日期" show="{{ show_cal }}" confirm-text="确定" bind:linconfirm="upDate">
+                </l-calendar>
+
+            </form>
+        </l-card>
+    </l-popup>
+    <!--删除的弹出层popDelet_control-->
+    <l-popup show="{{popDeleteControl}}" locked="{{true}}">
+        <l-card plaintext="true" type="primary" full="{{true}}">
+            <l-card plaintext="true" type="primary" full="{{true}}">
+                <text font-size="medium">你确定删除这个任务吗？</text>
+            </l-card>
+            <view style="text-align: center !important;">
+                <l-button size="medium" bg-color="#7494aa" shape="semicircle" bindtap="popUpDelete" class="left_size">
+                    取消
+                </l-button>
+                <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset">确定</l-button>
+            </view>
+        </l-card>
+    </l-popup>
+
+    <!--公告演示-->
+    <view class="dashboard_body">
+        <view class="dashboard_content">
+            <view class="dashboard_title">
+                <l-icon name="notification" size="30" color="#47d6b6" l-class="title_button" />
+                关于2022年核酸检测相关事项
+            </view>
+            <view class="dashboard_group">
+                来自小组-样例组名1 <text>\n</text> 2022.5.1
+            </view>
+        </view>
+        <l-collapse>
+            <l-collapse-item customTitle="{{true}}">
+                <view slot="title">
+                    <view class="dashoboard_container">查看公告详情
+                        <l-icon l-class="button_set" name="down" size="20" color="#999" />
+                    </view>
+                </view>
+                <view class="standard_text">
+                    How are female roles related to social and cultural contexts? Please compare two or three females in cartoons, literature or movies of different time or of different countries and regions. (based on the online discussion in Week 10)
+                </view>
+                <view style="text-align: center;margin-top: 20rpx;margin-bottom: 20rpx;">
+                    <l-button width="560" bg-color="#47d6b6" l-class="button_set" shape="circle">
+                        <l-icon l-class="button_set" name="success" size="30" color="#fff" />
+                        确认收到
+                    </l-button>
+                </view>
+            </l-collapse-item>
+        </l-collapse>
+    </view>
+
+    <!--小组任务演示-->
+    <view class="dashboard_body">
+        <view class="dashboard_content">
+            <view class="dashboard_title">
+                <!--根据紧急程度判断显示哪一个图标-->
+                <l-icon wx:if="{{isUrgent[0]==1}}" name="favor" size="35" color="red" l-class="title_button" />
+                <l-icon wx:else name="eye" size="35" color="orange" l-class="title_button" />
+                常态化核酸检测8
+            </view>
+            <view class="dashboard_group">
+                来自小组-样例小组2
+                <text>\n</text>
+                2022.5.1 10:20
+            </view>
+        </view>
+        <l-collapse>
+            <l-collapse-item customTitle="{{true}}">
+                <view slot="title">
+                    <view class="dashoboard_container">查看任务
+                        <l-icon l-class="button_set" name="down" size="20" color="#999" />
+                    </view>
+                </view>
+                <view class="standard_text">
+                    做核酸，收表格
+                </view>
+                <view style="text-align: center;margin-top: 20rpx;margin-bottom: 20rpx;">
+
+                    <view class="buttons">
+                        <view>
+                            <l-button class="finish_button" height="100" shape="circle" bg-color="#FF8C00" bindtap="popUpFinish">
+                                <l-icon l-class="button_set" name="success" size="50" color="#fff" />
+                            </l-button>
+                        </view>
+                        <view>
+                            <l-button class="urgent_button" height="100" shape="circle" bg-color="orange" bindtap="toUrgent">
+                                <l-icon l-class="button_set" name="favor" size="50" color="#fff" />
+                            </l-button>
+                        </view>
+                        <!--如果不是小组任务就禁用后两个按钮-->
+                        <view>
+                            <l-button class="time_button" height="100" shape="circle" bg-color="#FF8C00" wx:if="{{false}}" bindtap="popUpChange">
+                                <l-icon l-class="button_set" name="time" size="50" color="#fff" />
+                            </l-button>
+                        </view>
+                        <view>
+                            <l-button class="delete_button" height="100" shape="circle" bg-color="orange" wx:if="{{false}}" bindtap="popUpDelete">
+                                <l-icon l-class="button_set" name="delete" size="50" color="#fff" />
+                            </l-button>
+                        </view>
+                    </view>
+                </view>
+            </l-collapse-item>
+        </l-collapse>
+    </view>
+
+    <!--个人任务演示-->
+    <view class="dashboard_body">
+        <view class="dashboard_content">
+            <view class="dashboard_title">
+                <l-icon wx:if="{{isUrgent[1]==1}}" name="favor" size="35" color="red" l-class="title_button" />
+                <l-icon wx:else name="eye" size="35" color="orange" l-class="title_button" />
+                常态化核酸检测8
+            </view>
+            <view class="dashboard_group">
+                来自个人
+                <text>\n</text>
+                2022.5.1 10:20
+            </view>
+        </view>
+        <l-collapse>
+            <l-collapse-item customTitle="{{true}}">
+                <view slot="title">
+                    <view class="dashoboard_container">查看任务
+                        <l-icon l-class="button_set" name="down" size="20" color="#999" />
+                    </view>
+                </view>
+                <view class="standard_text">
+                    赶快去做核酸，不然受处分
+                </view>
+                <view style="text-align: center;margin-top: 20rpx;margin-bottom: 20rpx;">
+
+                    <view class="buttons">
+                        <view>
+                            <l-button class="finish_button" height="100" shape="circle" bg-color="#FF8C00" bindtap="popUpFinish">
+                                <l-icon l-class="button_set" name="success" size="50" color="#fff" />
+                            </l-button>
+                        </view>
+                        <view>
+                            <l-button class="urgent_button" height="100" shape="circle" bg-color="orange" bindtap="toUrgent">
+                                <l-icon l-class="button_set" name="favor" size="50" color="#fff" />
+                            </l-button>
+                        </view>
+                        <!--如果不是小组任务就禁用后两个按钮-->
+                        <view>
+                            <l-button class="time_button" height="100" shape="circle" bg-color="#FF8C00" bindtap="popUpChange">
+                                <l-icon l-class="button_set" name="time" size="50" color="#fff" />
+                            </l-button>
+                        </view>
+                        <view>
+                            <l-button class="delete_button" height="100" shape="circle" bg-color="orange" bindtap="popUpDelete">
+                                <l-icon l-class="button_set" name="delete" size="50" color="#fff" />
+                            </l-button>
+                        </view>
+                    </view>
+                </view>
+            </l-collapse-item>
+        </l-collapse>
+    </view>
+
+</view>
+
+<image src="https://s3.bmp.ovh/imgs/2022/04/30/9b5bb94f9eaf597a.png" class="bgimage" mode="aspectFit"></image>

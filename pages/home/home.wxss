@@ -1,0 +1,148 @@
+.top-layer {
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+}
+
+.bgimage {
+    position: fixed;
+    width: 600rpx;
+    z-index: -1;
+    bottom: 0rpx;
+    scale: 1.5;
+    left: 50%;
+    margin-left: -300rpx;
+    opacity: 0.5;
+}
+
+
+.left_size {
+    font-size: larger;
+    font-weight: bold;
+    margin-right: 25rpx;
+}
+
+/*
+button_set为调整icon与文字在同一行
+*/
+.button_set {
+    /*
+  重点为下面两行
+  */
+    font-size: medium;
+    display: flex;
+    margin-right: 10rpx;
+    margin-left: 10rpx;
+}
+
+.title_button {
+    margin-right: 10rpx;
+}
+
+.clear_text {
+    font-size: 40px;
+    font-weight: bold;
+    height: 150rpx;
+}
+
+.bigger_text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.fix_text {
+    text-align: right;
+}
+
+/*
+ *  防止输入框超出屏幕
+ */
+.rej_overflow {
+    max-height: 300rpx;
+}
+
+/*
+主边框设置
+*/
+.dashboard_body {
+    background-color: #e0fffb2a;
+    border: 5rpx dashed #eadada;
+    border-radius: 20rpx;
+    margin: 15rpx;
+}
+
+.dashboard_content {
+    border-bottom: thin dashed #eadada;
+}
+
+/*
+  折叠栏初始位置调整
+*/
+.dashoboard_container {
+    font-size: medium;
+    display: flex;
+    align-items: center;
+    margin-left: 10rpx;
+    font-size: 30rpx;
+    height: 80rpx;
+}
+
+/*
+  标题位置调整
+*/
+.dashboard_title {
+    display: flex;
+    align-items: center;
+    margin: 20rpx;
+    font-size: larger;
+    font-family: "microsoft yahei";
+}
+
+/*
+  小组与时间位置调整
+*/
+.dashboard_group {
+    color: #ccc8bd;
+    font-weight: 400;
+    margin-left: 20rpx;
+    margin-bottom: 20rpx;
+    margin-top: -8rpx;
+}
+
+/*
+  文本内容调整
+*/
+.standard_text {
+    margin-bottom: 10rpx;
+    margin-top: -10rpx;
+    margin-left: 10rpx;
+    font-size: 30rpx;
+    font-weight: normal;
+}
+
+.buttons {
+    margin-top: 20rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.finish_button {
+    max-width: 20%;
+}
+
+.urgent_button {
+    max-width: 20%;
+}
+
+.time_button {
+    max-width: 20%;
+}
+
+.delete_button {
+    max-width: 20%;
+}

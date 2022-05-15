@@ -5,7 +5,7 @@ var User = {
     taskList: [ //用户所拥有的任务列表: [Task()类]
         null
     ],
-    groupList: [ //用户所在的群组列表: [string (groupId)]
+    groupList: [ //用户所在的群组列表: [Group()类]
         ""
     ],
     name: "", //姓名: string
@@ -24,8 +24,8 @@ var Group = {
         ],
         isAdministrator: false //是否为管理员: boolean
     }],
-    administratorList: [ //管理员列表: string (userId)
-        ""
+    administratorList: [ //管理员列表: [User()类]
+        null
     ]
 }
 
@@ -34,10 +34,11 @@ var Task = {
     type: "", //类型: string (公告-"notice" 个人任务-"ptask" 群组任务-"gtask")
     title: "", //标题: string
     content: "", //详情: string
-    from: "", //来自哪一个个人/群组: string (userId/groupId)
+    isFromUser: false, //是否来自个人: boolean
+    from: null, //来自哪一个个人/群组: User()类/Group()类
     DDL: null, //DDL: Date()类
     isFinished: false, //是否完成/收到: boolean
-    priority: 0, //优先级: number (普通-0 紧急-1)
+    priority: 0 //优先级: number (普通-0 紧急-1)
 }
 
 //提醒设置 (我负责的，你们可以不看。因微信小程序订阅消息限制，下述部分功能可能无法实现)

@@ -1,0 +1,13 @@
+{
+    "isDDLRemindActive": false,
+    "DDLRemindTimeOptions": [],
+    "DDLRemindTimeIndex": 0,
+    "DDLRemindFrequencyOptions": [],
+    "DDLRemindFrequencyIndex": 0,
+    "isFixedTimeRemindActive": false,
+    "FixedTimeRemindTime": "00:00",
+    "isDNDModeActive": false,
+    "DNDModeStartTime": "00:00",
+    "DNDModeEndTime": "00:00",
+    "DNDModeRepetitionOptions": []
+}

@@ -1,0 +1,5 @@
+<view style="display: flex;justify-content: center;">
+    <image src="/assets/icons/help_title.png" mode="aspectFit" class="title"></image>
+</view>
+<view class="subtitle">1. 创建我的待办</view>
+<view>在“待办”页轻触上端按钮，填写任务名称，优先级，ddl等</view>

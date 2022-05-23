@@ -10,7 +10,7 @@ var now_time_set = now_hour.padStart(2, '0') + ':' + now_minute.padStart(2, '0')
 Page({
     data: {
         isSearching: false,
-        isAddNewGroupTapped: false,
+
         user: true,
         noticeSelected: false,
         noticeAdd: false,
@@ -87,25 +87,14 @@ Page({
         var searchText = e.detail.value
         console.log(searchText)
     },
-    cancelSearch() { //点击了搜索框“取消”按钮
+    cancelSearch() { //点击了“取消”按钮
         this.setData({
             isSearching: false
         })
     },
-    tapAddNewGroup() { //点击 “创建群组”
-        this.setData({
-            isAddNewGroupTapped: true
-        })
+    addNewGroup() { //添加新群组
     },
-    cancelAddNewGroup() { //取消 "创建群组"
-        this.setData({
-            isAddNewGroupTapped: false
-        })
-    },
-    inputArea: function (e) { //监听群组详情内容
-        console.log("群组详情：", e);
-    },
-
+    
     //popUp页重置数据
     popUp: function (e) {
         //再次获取时间并渲染

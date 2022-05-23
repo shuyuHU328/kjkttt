@@ -1,0 +1,16 @@
+<scroll-view scroll-y="true" class="top-layer">
+    <view class="title">关于南土豆</view>
+    <view class="body">这是一款针对小组分工合作的ToDoList小程序。在日常生活中，我们发现很多课程都有小组作业的要求，但在进行任务分配时只能通过群聊商讨，效率低下。因此，在实现基本的“个人”待办事项记录的基础上，基于微信强大的社交能力，我们增加了“群组”，准备实现点对点任务分配，实时查看任务进度，发布公告，上传共享资源与成果，ddl提醒等一系列功能。（部分功能由于微信小程序功能受限还在开发中，敬请期待~）</view>
+    <view class="title">关于我们</view>
+    <view class="body">这里是由南京大学软件工程2021级的四位学生组成的开发团队“锟斤拷烫烫烫”，南土豆是我们参加2022年南京大学软件学院EL比赛的参赛作品，感谢您的使用。欢迎加入qq交流群：865011532，和我们分享您的感受与建议！</view>
+    <view style="display: flex;flex-direction: column; align-items: center;">
+        <image src="/assets/icons/nantodo_qqgroup.png" mode="aspectFit" show-menu-by-longpress="{{true}}"></image>
+        <view style="font-size: 28rpx;color: #999;">长按图片保存</view>
+    </view>
+    <view class="title">鸣谢</view>
+    <view class="body">感谢以下第三方素材库的支持:</view>
+    <view class="body">lin-ui: https://doc.mini.talelin.com/</view>
+    <view class="body">streamline图标库: https://www.streamlinehq.com/icons/streamline-mini-line</view>
+</scroll-view>
+
+<image src="https://s3.bmp.ovh/imgs/2022/04/30/9b5bb94f9eaf597a.png" class="bgimage" mode="aspectFit"></image>

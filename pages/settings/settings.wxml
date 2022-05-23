@@ -2,43 +2,64 @@
     <view class="top-layer">
 
         <view class="settings_container">
+            <!-- 上方个人信息面板 -->
             <view class="user_info">
                 <view class="user_info_panel">
                     <image class="user_avatar" src="{{user.userInfo.avatarUrl}}"></image>
                     <view class="user_info_text">
-                        <view style="font-size: 40rpx;">张三</view>
-                        <view style="color: grey;">211250xxx</view>
+                        <view style="font-size: 40rpx;">{{user.name}}</view>
+                        <view style="color: grey;">{{user.studentNumber}}</view>
                     </view>
                 </view>
             </view>
 
+            <!-- 下方各项设置 -->
             <l-grid class="settings" show-border="{{true}}">
                 <l-grid-item key="one" slot="one" l-grid-item-class="settings_elem" bindtap="goRemind">
-                    <l-icon name="notification" l-class="settings_icons" color="{{colorList[style]}}" />
+                    <l-icon name="notification" l-class="settings_icons" color="{{colorList[user.style]}}" />
                     <view class="settings_text">提醒</view>
                 </l-grid-item>
-                <l-grid-item key="two" slot="two" l-grid-item-class="settings_elem">
-                    <l-icon name="user" l-class="settings_icons" color="{{colorList[style]}}" />
+                <l-grid-item key="two" slot="two" l-grid-item-class="settings_elem" bindtap="goModifyPersonalInfo">
+                    <l-icon name="user" l-class="settings_icons" color="{{colorList[user.style]}}" />
                     <view class="settings_text">修改个人信息</view>
                 </l-grid-item>
                 <l-grid-item key="three" slot="three" l-grid-item-class="settings_elem" bindtap="goStyleSelector">
-                    <l-icon name="eye" l-class="settings_icons" color="{{colorList[style]}}" />
+                    <l-icon name="eye" l-class="settings_icons" color="{{colorList[user.style]}}" />
                     <view class="settings_text">风格</view>
                 </l-grid-item>
-                <l-grid-item key="four" slot="four" l-grid-item-class="settings_elem">
-                    <l-icon name="help" l-class="settings_icons" color="{{colorList[style]}}" />
-                    <view class="settings_text">帮助与反馈</view>
+                <l-grid-item key="four" slot="four" l-grid-item-class="settings_elem" bindtap="goHelp">
+                    <l-icon name="help" l-class="settings_icons" color="{{colorList[user.style]}}" />
+                    <view class="settings_text">帮助</view>
                 </l-grid-item>
-                <l-grid-item key="five" slot="five" l-grid-item-class="settings_elem">
-                    <l-icon name="warning" l-class="settings_icons" color="{{colorList[style]}}" />
+                <l-grid-item key="five" slot="five" l-grid-item-class="settings_elem" bindtap="goAbout">
+                    <l-icon name="warning" l-class="settings_icons" color="{{colorList[user.style]}}" />
                     <view class="settings_text">关于</view>
                 </l-grid-item>
                 <l-grid-item key="six" slot="six" l-grid-item-class="settings_elem" bindtap="userLogout">
-                    <l-icon name="error" l-class="settings_icons" color="{{colorList[style]}}" />
+                    <l-icon name="error" l-class="settings_icons" color="{{colorList[user.style]}}" />
                     <view class="settings_text">退出登录</view>
                 </l-grid-item>
             </l-grid>
 
+            <!-- 修改个人信息弹出面板 -->
+            <l-popup show="{{isModifyPersonalInfoPopup}}" locked="{{true}}">
+                <l-card plaintext="true">
+                    <text>\n</text>
+                    <block wx:if="{{isModifyPersonalInfoPopup}}">
+                        <l-card plaintext="true">
+                            <l-input id="name" label="姓名" placeholder="不超过10个字" maxlength="10" label-layout="left" value="" bind:linblur="inputName" />
+                            <l-input id="studentNumber" label="学号" placeholder="不超过20个字" maxlength="20" label-layout="left" value="" bind:linblur="inputStudentNumber" />
+                        </l-card>
+                    </block>
+                    <text>\n</text>
+                    <view style="display: flex;justify-content: space-evenly;">
+                        <l-button size="medium" bg-color="#7494aa" shape="semicircle" bindtap="cancelModifyPersonalInfo">取消</l-button>
+                        <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset" bind:lintap="modifyPersonalInfo">提交</l-button>
+                    </view>
+                </l-card>
+            </l-popup>
+
+            <!-- 修改风格面板 -->
             <l-popup show="{{isStyleSelectorPopup}}">
                 <view class="style_selector">
                     <radio-group bindchange="styleSelectorChange">

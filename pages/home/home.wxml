@@ -1,4 +1,4 @@
-<view class="top-layer">
+<scroll-view class="top-layer">
 
     <!--pages/wxml/home.wxml-->
     <l-list gap="25" bind:lintap="popUp" title="创建我的待办" icon="edit" icon-size="45" icon-color="#f5c181" tag-color="#f5c181" tag-position="right" tag-shape="circle" tag-content="即刻拥有你的计划表" l-class="clear_text" l-content-class="bigger_text" />
@@ -24,7 +24,7 @@
                 <block wx:if="{{pop_control==true}}">
                     <l-card plaintext="true">
 
-                        <l-input class="fix_text" bind:linblur="inputTitle" label="项目名称" placeholder="请输入待办事项" maxlength="100" label-layout="left" />
+                        <l-input class="fix_text" bind:linblur="inputTitle" label="任务名称" placeholder="请输入待办事项" maxlength="100" label-layout="left" />
 
                         <picker bindchange="bindPriChange" value="{{priority_index}}" range="{{state}}">
                             <l-list title="优先级" gap="25" is-link="{{false}}" right-desc="{{state[priority_index]}}">
@@ -43,7 +43,7 @@
 
                 <l-card plaintext="true">
                     <view bindtap="showCalendar">
-                        <l-list title="日期" gap="25" is-link="{{false}}">
+                        <l-list title="截止日期" gap="25" is-link="{{false}}">
                             <view slot="right-section">
                                 {{year}}-{{month}}-{{date}}
                             </view>
@@ -67,7 +67,7 @@
                         取消
                     </l-button>
 
-                    <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset">提交</l-button>
+                    <l-button size="medium" shape="semicircle" bg-color="#ffe380" bindtap="addTask">提交</l-button>
                 </view>
 
                 <!--调用日历组件-->
@@ -300,23 +300,23 @@
 
                     <view class="buttons">
                         <view>
-                            <l-button class="finish_button" height="100" shape="circle" bg-color="#FF8C00" bindtap="popUpFinish">
+                            <l-button class="finish_button" height="100" shape="square" bg-color="#FF8C00" bindtap="popUpFinish">
                                 <l-icon l-class="button_set" name="success" size="50" color="#fff" />
                             </l-button>
                         </view>
                         <view>
-                            <l-button class="urgent_button" height="100" shape="circle" bg-color="orange" bindtap="toUrgent">
+                            <l-button class="urgent_button" height="100" shape="square" bg-color="orange" bindtap="toUrgent">
                                 <l-icon l-class="button_set" name="favor" size="50" color="#fff" />
                             </l-button>
                         </view>
                         <!--如果不是小组任务就禁用后两个按钮-->
                         <view>
-                            <l-button class="time_button" height="100" shape="circle" bg-color="#FF8C00" wx:if="{{false}}" bindtap="popUpChange">
+                            <l-button class="time_button" height="100" shape="square" bg-color="#FF8C00" wx:if="{{false}}" bindtap="popUpChange">
                                 <l-icon l-class="button_set" name="time" size="50" color="#fff" />
                             </l-button>
                         </view>
                         <view>
-                            <l-button class="delete_button" height="100" shape="circle" bg-color="orange" wx:if="{{false}}" bindtap="popUpDelete">
+                            <l-button class="delete_button" height="100" shape="square" bg-color="orange" wx:if="{{false}}" bindtap="popUpDelete">
                                 <l-icon l-class="button_set" name="delete" size="50" color="#fff" />
                             </l-button>
                         </view>
@@ -380,6 +380,6 @@
         </l-collapse>
     </view>
 
-</view>
+</scroll-view>
 
 <image src="https://s3.bmp.ovh/imgs/2022/04/30/9b5bb94f9eaf597a.png" class="bgimage" mode="aspectFit"></image>

@@ -1,0 +1,4 @@
+<l-list title="提醒设置" bindtap="goRemind"></l-list>
+<l-list title="个人信息设置" />
+<l-list title="帮助" />
+<l-list title="关于我们" />

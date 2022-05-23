@@ -1,12 +1,15 @@
 {
-    "cloud": true,
+    "cloud":true,
     "pages": [
         "pages/home/home",
         "pages/groups/groups",
         "pages/settings/settings",
         "pages/settings-remind/settings-remind",
+        "pages/settings-about/settings-about",
+        "pages/settings-help/settings-help",
         "pages/groups-memberArrange/groups-memberArrange",
         "pages/groups-memberArrange-assignmentArrange/groups-memberArrange-assignmentArrange"
+        
     ],
     "window": {
         "backgroundTextStyle": "light",

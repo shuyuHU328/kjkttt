@@ -6,6 +6,7 @@ cloud.init()
 // 云函数入口函数
 exports.main = async (event, context) => {
     const wxContext = cloud.getWXContext()
+    console.log('调用了base64')
 
     return {
         ans: base64encode(event.text),

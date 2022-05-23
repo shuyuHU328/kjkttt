@@ -2,31 +2,12 @@
 
     <view class="searchBarOuter">
         <l-search-bar maxlength="{{20}}" placeholder="搜索群组" bind:linchange="inputSearchText" bind:lincancel="cancelSearch">
-            <view slot="before" class="groupAddIcon" bindtap="tapAddNewGroup">
-                <l-icon name="add" color="#000" />
+            <view slot="before" class="groupAddIcon">
+                <l-icon name="add" color="#000" bindtap="addNewGroup" />
                 <text>创建群组</text>
             </view>
         </l-search-bar>
     </view>
-
-    <l-popup show="{{isAddNewGroupTapped}}" locked="{{true}}">
-        <l-card plaintext="true">
-            <l-form>
-                <text>\n</text>
-                <block wx:if="{{isAddNewGroupTapped}}">
-                    <l-card plaintext="true">
-                        <l-input class="fix_text" bind:linblur="inputTitle" label="群组名称" placeholder="不超过10个字" maxlength="10" label-layout="left" value="" />
-                        <l-textarea value="" border="{{false}}" auto-height="{{true}}" bind:linblur="inputArea" indicator="{{false}}" placeholder="介绍下群组吧……" maxlength="100" />
-                    </l-card>
-                </block>
-                <text>\n</text>
-                <view style="display: flex;justify-content: space-evenly;">
-                    <l-button size="medium" bg-color="#7494aa" shape="semicircle" bindtap="cancelAddNewGroup">取消</l-button>
-                    <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset">提交</l-button>
-                </view>
-            </l-form>
-        </l-card>
-    </l-popup>
 
 
     <view class="container_group" wx:for="{{groupList}}" wx:key="id">

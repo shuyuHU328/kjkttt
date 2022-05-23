@@ -1,0 +1,10 @@
+.title {
+    height: 200rpx;
+}
+
+.subtitle {
+    font-size: 40rpx;
+    font-weight: bold;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+}

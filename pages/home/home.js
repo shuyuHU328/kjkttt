@@ -2,6 +2,7 @@
 //胶囊栏操作
 
 //对于时间获取的操作
+var User;
 var now = new Date();
 var now_year = now.getFullYear();
 var now_month = now.getMonth() + 1;
@@ -38,7 +39,7 @@ Page(
             popDeleteControl: false
         },
         //popUp页重置数据
-        popUp: function (e) {
+        async popUp (e) {
             //再次获取时间并渲染
             var controler = false;
             var now_time = new Date();
@@ -93,6 +94,7 @@ Page(
             var change_month = time.getMonth() + 1;
             var change_date = time.getDate();
             this.setData({
+
                 year: change_year,
                 month: change_month,
                 date: change_date
@@ -101,18 +103,57 @@ Page(
         /**
          * 监听时间picker
          */
-        bindTimeChange: function (e) {
-            this.setData({
+        async bindTimeChange(e) {
+            await this.setData({
                 time: e.detail.value
             })
         },
         /**
          * 监听优先级picker
          */
-        bindPriChange: function (e) {
-            this.setData({
+        async bindPriChange(e) {
+           await this.setData({
                 priority_index: e.detail.value
             })
+        },
+        async updateUser() {
+            wx.showLoading({
+                title: '',
+            })
+            console.log('before update: ', User)
+            await wx.cloud.callFunction({
+                name: 'updateData',
+                config: {
+                    env: this.data.envId
+                },
+                data: {
+                    collectionName: 'Users',
+                    id: User._id,
+                    data: User
+                }
+            }).then(res => {
+                console.log('更新成功')
+                wx.hideLoading()
+            })
+                .catch(e => {
+                    console.log(e)
+                    wx.hideLoading()
+                })
+        },
+        async addTask() {
+           var nowTask = await this.getMyObjects('task');
+           nowTask.DDL=new Date(this.data.month+' '+this.data.date+','+this.data.year+' '+this.data.time);
+           nowTask.type='ptask';
+           nowTask.title=this.data.task;
+           nowTask.content=this.data.detailed;
+           nowTask.from=this.data.openId;
+           nowTask.priority=this.data.priority_index;
+           nowTask.userFrom=this.data.openId;
+           User=await this.getUser(this.data.openId);
+           User.taskList.push(nowTask);
+           console.log(User);
+           await this.updateUser(); 
+           await this.popUp(this.e);
         },
 
         /*
@@ -172,15 +213,88 @@ Page(
                 popDeleteControl: controler,
             })
         },
-
+        //获取openid(微信自带的云函数)
+        async getOpenId() {
+            wx.showLoading({
+                title: '',
+            });
+            await wx.cloud.callFunction({
+                name: 'getOpenId',
+                config: {
+                    env: this.data.envId
+                },
+            }).then((resp) => {
+                this.setData({
+                    openId: resp.result.openid
+                });
+                wx.hideLoading()
+            }).catch((e) => {
+                console.log(e)
+                wx.hideLoading();
+            });
+        },
+        //根据openId拉取用户数据
+    async getUser(openId) {
+        let data = null
+        wx.showLoading({
+            title: '',
+        })
+        await wx.cloud.callFunction({
+            name: 'getData',
+            config: {
+                env: this.data.envId
+            },
+            data: {
+                collectionName: 'Users',
+                id: openId
+            }
+        }).then(res => {
+            console.log(res)
+            data = res.result.data[0]
+            wx.hideLoading()
+        })
+            .catch(e => {
+                console.log(e)
+                wx.hideLoading()
+            })
+        return data
+    },
+    
 
         /**
          * 生命周期函数--监听页面加载
          */
-        onLoad: function (options) {
-
+        async onLoad(options) {
+            wx.cloud.init()
+            this.setData({
+                envId: options.envId //获取云环境id
+            })
+            await this.getOpenId()
         },
 
+        //获取模板对象
+        async getMyObjects(className) {
+            var obj = null;
+            wx.showLoading({
+                title: '',
+            })
+            await wx.cloud.callFunction({
+                name: 'getMyObjects',
+                config: {
+                    env: this.data.envId
+                },
+                data: {
+                    className //可支持的值: user, group, task
+                }
+            }).then((resp) => {
+                obj = resp.result
+                wx.hideLoading()
+            }).catch((e) => {
+                console.log(e)
+                wx.hideLoading()
+            });
+            return obj
+        },
         /**
          * 生命周期函数--监听页面初次渲染完成
          */
@@ -191,8 +305,13 @@ Page(
         /**
          * 生命周期函数--监听页面显示
          */
-        onShow: function () {
-
+        async onShow() {
+            User = wx.getStorageSync('User') != "" ? wx.getStorageSync('User') : null //从本地缓存拉取用户数据
+            //注意：若storage中不存在这一项，则wx.getStorageSync返回的不是null而是"", 所以需要加判断
+            if (User == null) {
+                User = await this.getUser(this.data.openId) //从云端拉取用户数据
+                wx.setStorageSync('User', User)
+            }
         },
 
         /**

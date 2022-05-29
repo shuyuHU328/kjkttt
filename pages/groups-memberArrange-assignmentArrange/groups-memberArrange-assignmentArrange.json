@@ -7,13 +7,14 @@
     "l-icon":"/assets/lin-ui/dist/icon",
     "l-popup":"/assets/lin-ui/dist/popup",
     "l-notice-bar":"/assets/lin-ui/dist/notice-bar",
-    "l-capsule-bar": "/assets/lin-ui/dist/capsule-bar/index",
-    "l-button": "/assets/lin-ui/dist/button/index",
-    "l-input": "/assets/lin-ui/dist/input/index",
-    "l-switch": "/assets/lin-ui/dist/switch/index",
-    "l-segment": "/assets/lin-ui/dist/segment/index",
-    "l-segment-item": "/assets/lin-ui/dist/segment-item/index",
-    "l-calendar": "/assets/lin-ui/dist/calendar/index",
-    "l-textarea": "/assets/lin-ui/dist/textarea/index"
+    "l-capsule-bar": "/assets/lin-ui/dist/capsule-bar",
+    "l-button": "/assets/lin-ui/dist/button",
+    "l-input": "/assets/lin-ui/dist/input",
+    "l-switch": "/assets/lin-ui/dist/switch",
+    "l-segment": "/assets/lin-ui/dist/segment",
+    "l-segment-item": "/assets/lin-ui/dist/segment-item",
+    "l-calendar": "/assets/lin-ui/dist/calendar",
+    "l-textarea": "/assets/lin-ui/dist/textarea",
+    "l-slide-view":  "/assets/lin-ui/dist/slide-view"
   }
 }

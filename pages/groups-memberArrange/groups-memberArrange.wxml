@@ -1,15 +1,46 @@
 <!--pages/home/home.wxml-->
-<view class='container1'>
-    <l-index-list scroll-top="{{scrollTop}}" l-selected-class="l-selected-class" l-tip-class="l-tip-class" style="width:100%" sidebar-data="{{sideBarData}}" l-sidebar-class="sidebar-class" l-tip-text-class="l-tip-text-class">
-        <block wx:for="{{sideBarData.length}}" wx:key="index" wx:for-index="anchorIndex">
-            <l-index-anchor />
-            <block wx:for="{{2}}" wx:key="index" wx:for-index="itemIndex">
-                <view class="person-item" bindtap="goToAssignment">
-                    <view class="person-name">
-                    {{nameData[anchorIndex][itemIndex]}}
-                    </view>
-                </view>
-            </block>
+<l-list gap="25" bind:lintap="tapAddNewMember" title="添加组员" icon="add" icon-size="60" icon-color="#FF7F50" tag-color="#FF7F50" tag-position="right" tag-shape="circle" tag-content="搜索学号、姓名" l-class="clear_text" l-content-class="bigger_text" />
+
+
+<l-popup show="{{isAddNewMemberTapped}}" locked="{{true}}" content-align="center">
+    <l-card plaintext="true" l-class="addNewMemberPopup">
+        <text>\n</text>
+        <block wx:if="{{isAddNewMemberTapped}}">
+            <!-- <l-card plaintext="true"> -->
+            <l-search-bar placeholder="搜索学号/姓名" bind:linconfirm="searchNewMember" show-cancel="{{false}}" />
+            <!-- </l-card> -->
         </block>
-    </l-index-list>
+        <text>\n</text>
+        <block wx:if="{{isAddNewMemberTapped}}">
+            <l-card l-class="searchedUsersCard" plaintext="{{true}}">
+                <scroll-view scroll-y="{{true}}" wx:if="{{searchedUsers.length > 0}}" class="searchedUsersScrollView">
+                    <!-- <l-checkbox-group bind:linchange="selectSearchedUser">
+                        <l-checkbox wx:for="{{searchedUsers}}" wx:key="id" checked="{{item.checked}}" key="{{item.value}}">{{item.value}}</l-checkbox>
+                    </l-checkbox-group> -->
+                    <checkbox-group bindchange="selectSearchedUser">
+                        <label wx:for="{{searchedUsers}}" wx:key="id" class="option">
+                            <view>{{item.name + " " + item.studentNumber }}</view>
+                            <view>
+                                <checkbox value="{{item.value}}" checked="{{item.checked}}" />
+                            </view>
+                        </label>
+                    </checkbox-group>
+                </scroll-view>
+                <view wx:elif="{{isSearched}}" style="text-align: center;font-size: 30rpx;">暂未找到，请重新搜索</view>
+            </l-card>
+        </block>
+        <text>\n</text>
+        <view style="display: flex;justify-content: space-evenly;">
+            <l-button size="medium" bg-color="#7494aa" shape="semicircle" bind:lintap="cancelAddNewMember">取消</l-button>
+            <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset" bind:lintap="addNewMember">提交</l-button>
+        </view>
+    </l-card>
+</l-popup>
+
+<!-- <view>
+    <l-list wx:for="{{nameData}}" title="{{item.name}}" wx:key="id" icon="user" icon-color="#f5c181" icon-size="40" bind:lintap="goToAssignment" l-class="memberCard">
+    </l-list>
+</view> -->
+<view>
+    <l-list wx:for="{{group.memberList}}" title="{{item.member.name}}" wx:key="id" icon="user" icon-color="#f5c181" icon-size="40" bind:lintap="goToAssignment" l-class="memberCard" data-memberId="{{item.member.userId}}"></l-list>
 </view>

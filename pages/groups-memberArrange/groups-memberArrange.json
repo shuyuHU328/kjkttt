@@ -1,8 +1,11 @@
 {
     "usingComponents": {
-      "l-index-list": "/assets/lin-ui/dist/index-list/index",
-      "l-index-anchor": "/assets/lin-ui/dist/index-anchor/index",
-      "l-segment": "/assets/lin-ui/dist/segment/index",
-      "l-segment-item": "/assets/lin-ui/dist/segment-item/index"
+        "l-list": "/assets/lin-ui/dist/list",
+        "l-button": "/assets/lin-ui/dist/button",
+        "l-popup": "/assets/lin-ui/dist/popup",
+        "l-search-bar": "/assets/lin-ui/dist/search-bar",
+        "l-card": "/assets/lin-ui/dist/card",
+        "l-checkbox-group": "/assets/lin-ui/dist/checkbox-group",
+        "l-checkbox": "/assets/lin-ui/dist/checkbox"
     }
 }

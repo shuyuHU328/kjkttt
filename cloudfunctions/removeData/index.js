@@ -14,7 +14,5 @@ const db = cloud.database()
  * @param {*} context 
  */
 exports.main = async (event, context) => {
-    return await db.collection(event.collectionName).doc(event.id).update({
-        data: event.data
-    })
+    return await db.collection(event.collectionName).doc(event.id).remove()
 }

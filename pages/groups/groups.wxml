@@ -1,33 +1,43 @@
-<view class="top-layer">
+<scroll-view scroll-y="true" class="top-layer">
 
-    <view class="searchBarOuter">
-        <l-search-bar maxlength="{{20}}" placeholder="搜索群组" bind:linchange="inputSearchText" bind:lincancel="cancelSearch">
-            <view slot="before" class="groupAddIcon">
-                <l-icon name="add" color="#000" bindtap="addNewGroup" />
-                <text>创建群组</text>
-            </view>
-        </l-search-bar>
-    </view>
+    <l-list gap="25" bind:lintap="tapAddNewGroup" title="创建新的群组" icon="add" icon-size="45" icon-color="#00CD00" tag-color="#00CD00" tag-position="right" tag-shape="circle" tag-content="与他人一起分工合作" l-class="clear_text" l-content-class="bigger_text" />
+    <l-popup show="{{isAddNewGroupTapped}}" locked="{{true}}">
+        <l-card plaintext="true">
+            <l-form>
+                <text>\n</text>
+                <block wx:if="{{isAddNewGroupTapped}}">
+                    <l-card plaintext="true">
+                        <l-input class="fix_text" bind:lininput="inputNewGroupTitle" label="群组名称" placeholder="不超过10个字" maxlength="10" label-layout="left" value="" />
+                        <l-textarea value="" border="{{false}}" auto-height="{{true}}" bind:lininput="inputNewGroupArea" indicator="{{false}}" placeholder="介绍下群组吧……" maxlength="100" />
+                    </l-card>
+                </block>
+                <text>\n</text>
+                <view style="display: flex;justify-content: space-evenly;">
+                    <l-button size="medium" bg-color="#7494aa" shape="semicircle" bind:lintap="cancelAddNewGroup">取消</l-button>
+                    <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset" bind:lintap="addNewGroup">提交</l-button>
+                </view>
+            </l-form>
+        </l-card>
+    </l-popup>
 
-
-    <view class="container_group" wx:for="{{groupList}}" wx:key="id">
+    <view class="container_group" wx:for="{{groups}}" wx:key="id">
         <l-collapse type="accordion">
             <l-collapse-item title="{{item.name}}">
                 <view class="collapse">
                     <scroll-view class="groupIndex" scroll-y="true">
-                        <l-list l-class="list" title="{{noticeName.noticeTitle}}" wx:for="{{item.noticeList}}" wx:for-item="noticeName" wx:key="id" icon="notification" bind:lintap="gotoNotice">
+                        <l-list l-class="list" title="{{noticeName.title}}" wx:for="{{item.noticeList}}" wx:for-item="noticeName" wx:key="id" icon="notification" bindtap="gotoNotice" data-noticeContent="{{noticeName}}" data-currentGroup="{{item}}">
                         </l-list>
                     </scroll-view>
                     <view class="groupArrageButton">
-                        <view class="groupArrageButton-item" bindtap="gotoAssignmentArrange">
+                        <view class="groupArrageButton-item" bindtap="gotoAssignmentArrange" data-currentGroup="{{item}}">
                             <l-icon name="order" size="60" color="#EEDD82"></l-icon>
                             <text>添加公告</text>
                         </view>
-                        <view class="groupArrageButton-item">
-                            <!-- <image src="/assets/images/memberadd.png"></image>
-          <text>增加成员</text> -->
+                        <view class="groupArrageButton-item" bindtap="deleteGroup" data-Group="{{item}}">
+                            <l-icon name="error" size="60" color="#EEDD82"></l-icon>
+                            <text>解散群组</text>
                         </view>
-                        <view class="groupArrageButton-item" bindtap="gotoMemberArrage">
+                        <view class="groupArrageButton-item" bindtap="gotoMemberArrage" data-Group="{{item}}">
                             <l-icon name="user" size="60" color="#EEDD82"></l-icon>
                             <text>成员列表</text>
                         </view>
@@ -42,23 +52,16 @@
         <view class="noticeBox">
             <view class="contentBox">
                 <view class="title">
-                    关于期中考试的通知
-                    <text class="handler">来自：张三 2022.4.28</text>
+                    {{noticeSelectedTitle}}
+                    <text class="handler">来自：{{noticeSelectedFrom}} {{noticeSelectedTime}}</text>
                 </view>
                 <text class="content">
-                    各位同学：
-                    接教务员通知，定于5月12日进行期中考试，具体时间和地点教务员稍后通知。
-                    课程调整如下：
-                    4月28日：假设检验（录播）
-                    5月5日： 期中考试复习（录播+直播）
-                    5月12日：期中考试（线下）
-                    祝好！
-                    振宇
+                    {{noticeSelectedContent}}
                 </text>
             </view>
             <text>\n</text>
             <view class="groupArrageButton">
-                <l-button size="medium" bg-color="#7494aa" shape="semicircle" l-class="size" wx:if="{{user}}">
+                <l-button size="medium" bg-color="#7494aa" shape="semicircle" l-class="size" data-id="{{noticeSelectedId}}" bindtap="removeNotice">
                     删除公告
                 </l-button>
                 <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset" l-class="size" bindtap="closeNotice">关闭</l-button>
@@ -87,16 +90,16 @@
                 <block wx:if="{{noticeAdd==true}}">
                     <l-card plaintext="true">
 
-                        <l-input class="fix_text" bind:linblur="inputTitle" label="公告名称" placeholder="请输入公告" maxlength="100" label-layout="left" />
+                        <l-input class="fix_text" bind:lininput="inputNoticeTitle" label="公告名称" placeholder="请输入公告" maxlength="100" label-layout="left" />
 
                         <view class="textin">
-                            <l-textarea l-class="rej_overflow" border="{{false}}" auto-height="{{true}}" bind:linblur="inputArea" indicator="{{false}}" placeholder="详细说说吧……" maxlength="600" />
+                            <l-textarea l-class="rej_overflow" border="{{false}}" auto-height="{{true}}" bind:lininput="inputNoticeArea" indicator="{{false}}" placeholder="详细说说吧……" maxlength="600" />
                         </view>
                     </l-card>
                 </block>
                 <text>\n</text>
 
-                <l-card plaintext="true">
+                <!-- <l-card plaintext="true">
                     <view bindtap="showCalendar">
                         <l-list title="日期" gap="25" is-link="{{false}}">
                             <view slot="right-section">
@@ -112,7 +115,7 @@
                             </view>
                         </l-list>
                     </picker>
-                </l-card>
+                </l-card> -->
                 <text>\n</text>
 
                 <!--以下为按钮-->
@@ -122,7 +125,7 @@
                         取消
                     </l-button>
 
-                    <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset" l-class="right_size">提交</l-button>
+                    <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset" l-class="right_size" bind:lintap="addNotice">提交</l-button>
                 </view>
 
                 <!--调用日历组件-->
@@ -133,5 +136,5 @@
         </view>
     </l-popup>
 
-</view>
+</scroll-view>
 <image src="https://s3.bmp.ovh/imgs/2022/04/30/9b5bb94f9eaf597a.png" class="bgimage" mode="aspectFit"></image>

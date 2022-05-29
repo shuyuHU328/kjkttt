@@ -19,7 +19,8 @@
 }
 
 .settings_container {
-    position: relative;
+    /* position: relative; */
+    width: 750rpx;
 }
 
 /* .user_info {
@@ -47,7 +48,9 @@
 }
 
 .settings {
-    padding: 0rpx !important;
+    /* padding-left: 6rpx !important; */
+    /* background-color: black; */
+    width: 750rpx;
 }
 
 .settings_icons {

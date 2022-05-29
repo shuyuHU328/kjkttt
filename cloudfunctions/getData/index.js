@@ -15,20 +15,12 @@ const db = cloud.database()
  * @returns result.data 所拉取的数据
  */
 exports.main = async (event, context) => {
-    var data = null
     if (event.collectionName != "Users") {
-        await db.collection(event.collectionName).doc(event.id)
-            .get().then(res => {
-                data = res.data
-            })
+        return await db.collection(event.collectionName).doc(event.id)
+            .get()
     } else {
-        await db.collection(event.collectionName).where({
+        return await db.collection(event.collectionName).where({
             userId: event.id
-        }).get().then(res => {
-            data = res.data
-        })
-    }
-    return {
-        data
+        }).get()
     }
 }

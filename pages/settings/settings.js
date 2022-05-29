@@ -2,8 +2,9 @@ var User = null
 
 Page({
     data: {
-        user: User,
+        user: null,
         colorList: ["#EEDD82", "#87CEFA"],
+        selectedColorList: ["#FFA500", "#00BFFF"],
         isModifyPersonalInfoPopup: false,
         isStyleSelectorPopup: false,
         styleOptions: [
@@ -11,14 +12,13 @@ Page({
             { value: "1", name: "晴天蓝", checked: false }
         ],
         isWelcomeShown: false,
-        envId: '',
         openId: ''
     },
     async syncUser() {
         this.setData({
             user: User
         })
-        wx.setStorageSync('User', User)
+        // wx.setStorageSync('User', User)
         await this.updateUser()
     },
     async getOpenId() {
@@ -26,10 +26,7 @@ Page({
             title: '',
         });
         await wx.cloud.callFunction({
-            name: 'getOpenId',
-            config: {
-                env: this.data.envId
-            },
+            name: 'getOpenId'
         }).then((resp) => {
             this.setData({
                 openId: resp.result.openid
@@ -47,9 +44,6 @@ Page({
         })
         await wx.cloud.callFunction({
             name: 'getMyObjects',
-            config: {
-                env: this.data.envId
-            },
             data: {
                 className //可支持的值: user, group, task
             }
@@ -69,17 +63,14 @@ Page({
         })
         await wx.cloud.callFunction({
             name: 'addData',
-            config: {
-                env: this.data.envId
-            },
             data: {
                 collectionName: 'Users',
                 data: User
             }
         }).then((resp) => {
-            console.log("testAddUser 运行成功")
-            User._id = resp.result.id
-            this.syncUser()
+            console.log("testAddUser 运行成功 resp=", resp)
+            User._id = resp.result._id
+            this.setData({ user: User })
             wx.hideLoading()
         }).catch((e) => {
             console.log(e)
@@ -93,15 +84,12 @@ Page({
         })
         await wx.cloud.callFunction({
             name: 'getData',
-            config: {
-                env: this.data.envId
-            },
             data: {
                 collectionName: 'Users',
                 id: openId
             }
         }).then(res => {
-            console.log(res)
+            console.log('getUser ==', res)
             data = res.result.data[0]
             wx.hideLoading()
         })
@@ -109,7 +97,6 @@ Page({
                 console.log(e)
                 wx.hideLoading()
             })
-        console.log("in getUser, data = ", data)
         return data
     },
     async updateUser() {
@@ -119,9 +106,6 @@ Page({
         console.log('before update: ', User)
         await wx.cloud.callFunction({
             name: 'updateData',
-            config: {
-                env: this.data.envId
-            },
             data: {
                 collectionName: 'Users',
                 id: User._id,
@@ -136,33 +120,40 @@ Page({
                 wx.hideLoading()
             })
     },
-    async onLoad(options) {
+    async onLoad() {
         wx.cloud.init()
-        console.log('这里是onload')
-        this.setData({
-            envId: options.envId
-        })
-        await this.getOpenId()
     },
     async onShow() {
-        console.log('这里是onshow')
-        // this.setData({
-        //     isStyleSelectorPopup: false
-        // })
-        User = wx.getStorageSync('User') != "" ? wx.getStorageSync('User') : null //从本地缓存拉取用户数据
-        if (User == null) {
-            console.log('从云端拉取')
-            User = await this.getUser(this.data.openId) //从云端拉取用户数据
-            wx.setStorageSync('User', User)
-        }
-        if (User == null) { //本地&云端均无数据，
-            console.log('新建用户')
+        console.log('这里是onShow')
+        if (this.data.openId == '')
+            await this.getOpenId()
+        console.log('openid = ', this.data.openId)
+        // console.log('这里是onshow')
+        await this.getUser(this.data.openId).then(res => {
+            console.log('onShow getUser res=', res)
+            User = res
             this.setData({
-                isWelcomeShown: true
+                user: res
             })
+        }).catch(e => {
+            console.log(e)
+        })
+        console.log('User ====', User)
+        // User = wx.getStorageSync('User') != "" ? wx.getStorageSync('User') : null //从本地缓存拉取用户数据
+
+        console.log('从云端拉取')
+        User = await this.getUser(this.data.openId) //从云端拉取用户数据
+        // wx.setStorageSync('User', User)
+        if (User == null) { //云端无数据，
+            console.log('新建用户')
             User = await this.getMyObjects('user')
             User.userId = this.data.openId
             await this.addUser()
+        }
+        if (User.userInfo == null) {
+            this.setData({
+                isWelcomeShown: true
+            })
         }
         this.setData({
             user: User
@@ -198,6 +189,9 @@ Page({
         })
     },
     goRemind() {
+        // wx.showModal({
+        //     title: '还在开发中，敬请期待~',
+        // })
         wx.navigateTo({
             url: '/pages/settings-remind/settings-remind',
         })
@@ -224,10 +218,19 @@ Page({
             isModifyPersonalInfoPopup: false
         })
     },
-    goStyleSelector() {
-        this.setData({
-            isStyleSelectorPopup: true
+    goCounter() {
+        wx.navigateTo({
+            url: '/pages/settings-counter/settings-counter',
         })
+    },
+    /*
+    goStyleSelector() {
+        wx.showModal({
+            title: '还在开发中，敬请期待~',
+        })
+        // this.setData({
+        //     isStyleSelectorPopup: true
+        // })
     },
     styleSelectorChange(e) {
         const items = this.data.styleOptions
@@ -237,11 +240,13 @@ Page({
                 User.style = i
                 this.syncUser()
                 wx.setNavigationBarColor({
-                    backgroundColor: this.data.colorList[this.data.user.style],
+                    backgroundColor: this.data.colorList[User.style],
                     frontColor: "#000000"
                 })
                 wx.setTabBarStyle({
-                    backgroundColor: this.data.colorList[this.data.user.style]
+                    backgroundColor: this.data.colorList[User.style],
+                    selectedColor: this.data.selectedColorList[User.style],
+                    // color: this.data.selectedColorList[User.style]
                 })
             }
         }
@@ -250,6 +255,7 @@ Page({
             styleOptions: items
         })
     },
+    */
     goHelp() {
         wx.navigateTo({
             url: '/pages/settings-help/settings-help',

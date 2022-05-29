@@ -1,19 +1,12 @@
 {
-    "projectname": "nantodo_1.1",
+    "projectname": "nantodo_1.2",
     "setting": {
-        "compileHotReLoad": false
+        "compileHotReLoad": true
     },
     "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
     "condition": {
         "miniprogram": {
             "list": [
-                {
-                    "name": "groups测试",
-                    "pathName": "pages/groups/groups",
-                    "query": "",
-                    "launchMode": "default",
-                    "scene": null
-                },
                 {
                     "name": "settings测试",
                     "pathName": "pages/settings/settings",
@@ -22,15 +15,29 @@
                     "scene": null
                 },
                 {
-                    "name": "settings-remind测试",
-                    "pathName": "pages/settings-remind/settings-remind",
+                    "name": "settings-help测试",
+                    "pathName": "pages/settings-help/settings-help",
                     "query": "",
                     "launchMode": "default",
                     "scene": null
                 },
                 {
-                    "name": "welcome测试",
-                    "pathName": "pages/welcome/welcome",
+                    "name": "",
+                    "pathName": "pages/groups-memberArrange/groups-memberArrange",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "groups测试",
+                    "pathName": "pages/groups/groups",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "settings-counter测试",
+                    "pathName": "pages/settings-counter/settings-counter",
                     "query": "",
                     "launchMode": "default",
                     "scene": null

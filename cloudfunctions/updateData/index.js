@@ -16,7 +16,8 @@ const db = cloud.database()
  */
 exports.main = async (event, context) => {
     let data = event.data
-    delete data._id
+    if (data.hasOwnProperty('_id'))
+        delete data._id
     return await db.collection(event.collectionName).doc(event.id).set({
         data
     })

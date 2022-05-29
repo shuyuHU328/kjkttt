@@ -1,4 +1,4 @@
-.up-layer {
+.top-layer {
     position: fixed;
     z-index: 2;
     width: 100%;
@@ -8,17 +8,12 @@
 .bgimage {
     position: fixed;
     width: 600rpx;
-    z-index: 1;
+    z-index: -1;
     bottom: 0rpx;
     scale: 1.5;
     left: 50%;
     margin-left: -300rpx;
     opacity: 0.5;
-}
-
-.searchBarOuter {
-    background: #EEDD82;
-    height: 70rpx;
 }
 
 .groupAddIcon {
@@ -28,10 +23,6 @@
     /* background: lightyellow; */
     padding: 10rpx;
     border-radius: 10rpx;
-}
-
-.groupAddIcon text {
-    margin-left: 10rpx;
 }
 
 .container_group view {
@@ -261,7 +252,7 @@
     font-weight: bold;
     margin-right: 25rpx;
     position: relative;
-    bottom: 10rpx;
+    bottom: 20rpx;
 }
 
 .list {

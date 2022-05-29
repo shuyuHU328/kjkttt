@@ -1,50 +1,39 @@
-// pages/wxml/home.js
-//胶囊栏操作
-
-//对于时间获取的操作
 var User;
-var now = new Date();
-var now_year = now.getFullYear();
-var now_month = now.getMonth() + 1;
-var now_date = now.getDate();
-var now_time = now.getTime();
-var now_hour = now.getHours().toString();
-var now_minute = now.getMinutes().toString();
-var now_time_set = now_hour.padStart(2, '0') + ':' + now_minute.padStart(2, '0');
-//popUp页面控制
 Page(
     {
         /**
          * 页面的初始数据
          */
         data: {
+            timeId:0,
+            openId: "",
+            taskIdList: [],
+            taskList:[],
             pop_control: false,
-            show_cal: false,
+            showCalendar: false,
             //基本数据
             task: '',
+            DDL:null,
             detailed: '',
-            year: now_year,
-            month: now_month,
-            date: now_date,
-            time: now_time_set,
+            year: null,
+            month: null,
+            date: null,
+            time: null,
             //以下为优先级数组 
             priority_index: 0,
             state: ['普通', '紧急'],
             priority: ['low', 'high'],
             //任务的优先级信息与是否是群组任务
-            isUrgent: [1, 0],
-            isPersonalWork: false,
-            popFinishControl: false,
             popChangeTimeControl: false,
-            popDeleteControl: false
+            personal:"个人"
         },
         //popUp页重置数据
-        async popUp (e) {
+        async popUp(e) {
             //再次获取时间并渲染
             var controler = false;
-            var now_time = new Date();
-            var now_hour = now_time.getHours().toString();
-            var now_minute = now_time.getMinutes().toString();
+            var nowTime = new Date();
+            var now_hour = nowTime.getHours().toString();
+            var now_minute = nowTime.getMinutes().toString();
             var now_time_set = now_hour.padStart(2, '0') + ':' + now_minute.padStart(2, '0');
             if (this.data.pop_control == false) {
                 controler = true;
@@ -53,19 +42,17 @@ Page(
             }
             this.setData({
                 //回调数据
-                show_cal: false,
+                showCalendar: false,
                 task: '',
                 detailed: '',
-                year: now_year,
-                month: now_month,
-                date: now_date,
+                year: nowTime.getFullYear(),
+                month: nowTime.getMonth() + 1,
+                date: nowTime.getDate(),
                 time: now_time_set,
                 pop_control: controler,
                 priority_index: 0,
             })
         },
-
-
         /**
         * input字符串操作
         */
@@ -84,7 +71,7 @@ Page(
          */
         showCalendar: function (e) {
             this.setData({
-                show_cal: true
+                showCalendar: true
             })
         },
         upDate: function (event) {
@@ -94,7 +81,6 @@ Page(
             var change_month = time.getMonth() + 1;
             var change_date = time.getDate();
             this.setData({
-
                 year: change_year,
                 month: change_month,
                 date: change_date
@@ -108,14 +94,16 @@ Page(
                 time: e.detail.value
             })
         },
+        
         /**
          * 监听优先级picker
          */
         async bindPriChange(e) {
-           await this.setData({
+            await this.setData({
                 priority_index: e.detail.value
             })
         },
+        //更新用户数据
         async updateUser() {
             wx.showLoading({
                 title: '',
@@ -123,9 +111,7 @@ Page(
             console.log('before update: ', User)
             await wx.cloud.callFunction({
                 name: 'updateData',
-                config: {
-                    env: this.data.envId
-                },
+
                 data: {
                     collectionName: 'Users',
                     id: User._id,
@@ -140,139 +126,6 @@ Page(
                     wx.hideLoading()
                 })
         },
-        async addTask() {
-           var nowTask = await this.getMyObjects('task');
-           nowTask.DDL=new Date(this.data.month+' '+this.data.date+','+this.data.year+' '+this.data.time);
-           nowTask.type='ptask';
-           nowTask.title=this.data.task;
-           nowTask.content=this.data.detailed;
-           nowTask.from=this.data.openId;
-           nowTask.priority=this.data.priority_index;
-           nowTask.userFrom=this.data.openId;
-           User=await this.getUser(this.data.openId);
-           User.taskList.push(nowTask);
-           console.log(User);
-           await this.updateUser(); 
-           await this.popUp(this.e);
-        },
-
-        /*
-        结束任务图标
-        **/
-        popUpFinish: function () {
-            var controler = false;
-            if (this.data.popFinishControl == false) {
-                controler = true;
-            } else {
-                controler = false;
-            }
-            this.setData({
-                popFinishControl: controler
-            })
-        },
-        /**
-         * 
-         * 任务变紧急
-         */
-        toUrgent: function () {
-
-        },
-        popUpChange: function () {
-            //再次获取时间并渲染
-            var controler = false;
-            var now_time = new Date();
-            var now_hour = now_time.getHours().toString();
-            var now_minute = now_time.getMinutes().toString();
-            var now_time_set = now_hour.padStart(2, '0') + ':' + now_minute.padStart(2, '0');
-            if (this.data.popChangeTimeControl == false) {
-                controler = true;
-            } else {
-                controler = false;
-            }
-            this.setData({
-                //回调数据
-                show_cal: false,
-                task: '',
-                detailed: '',
-                year: now_year,
-                month: now_month,
-                date: now_date,
-                time: now_time_set,
-                popChangeTimeControl: controler,
-                priority_index: 0,
-            })
-        },
-        popUpDelete: function () {
-            var controler = false;
-            if (this.data.popDeleteControl == false) {
-                controler = true;
-            } else {
-                controler = false;
-            }
-            this.setData({
-                popDeleteControl: controler,
-            })
-        },
-        //获取openid(微信自带的云函数)
-        async getOpenId() {
-            wx.showLoading({
-                title: '',
-            });
-            await wx.cloud.callFunction({
-                name: 'getOpenId',
-                config: {
-                    env: this.data.envId
-                },
-            }).then((resp) => {
-                this.setData({
-                    openId: resp.result.openid
-                });
-                wx.hideLoading()
-            }).catch((e) => {
-                console.log(e)
-                wx.hideLoading();
-            });
-        },
-        //根据openId拉取用户数据
-    async getUser(openId) {
-        let data = null
-        wx.showLoading({
-            title: '',
-        })
-        await wx.cloud.callFunction({
-            name: 'getData',
-            config: {
-                env: this.data.envId
-            },
-            data: {
-                collectionName: 'Users',
-                id: openId
-            }
-        }).then(res => {
-            console.log(res)
-            data = res.result.data[0]
-            wx.hideLoading()
-        })
-            .catch(e => {
-                console.log(e)
-                wx.hideLoading()
-            })
-        return data
-    },
-    
-
-        /**
-         * 生命周期函数--监听页面加载
-         */
-        async onLoad(options) {
-            wx.cloud.init()
-            this.setData({
-                envId: options.envId //获取云环境id
-            })
-            await this.getOpenId()
-        },
-
-        //获取模板对象
         async getMyObjects(className) {
             var obj = null;
             wx.showLoading({
@@ -295,25 +148,300 @@ Page(
             });
             return obj
         },
-        /**
-         * 生命周期函数--监听页面初次渲染完成
-         */
-        onReady: function () {
 
+
+        //添加任务
+        async addTask() {
+            var nowTask = await this.getMyObjects('task');
+            nowTask.DDL = this.data.year + '-' + this.data.month + '-' + this.data.date + ' ' + this.data.time;
+            nowTask.title = this.data.task;
+            nowTask.content = this.data.detailed;
+            nowTask.from = this.data.openId;
+            nowTask.priority = this.data.priority_index;
+            nowTask.type = 'ptask';
+            nowTask.userFrom = this.data.openId;
+            wx.showLoading({
+                title: '',
+            })
+            await wx.cloud.callFunction({
+                name: 'addData',
+                data: {
+                    collectionName: 'Tasks',
+                    data: nowTask
+                }
+            }).then(async (resp) => {
+                console.log("testAddUser 运行成功 resp=", resp)
+                nowTask._id = resp.result._id
+                User=await this.getUser(this.data.openId)
+                User.taskIdList.push(nowTask._id);
+                await this.updateUser();        
+                await this.onShow()
+                this.popUp(this.e)
+            }).catch((e) => {
+                console.log(e)
+                wx.hideLoading()
+            });
+        },
+        analyzeDDL: function(){
+            var aDDL=new Date(this.data.DDL)
+            var now=new Date()
+            var difference=aDDL.valueOf()-now.valueOf()
+            console.log("findme"+difference)
+            if(difference<=0){
+                return "dashboard_body_overdue"
+            }else if(difference<86400000){
+                return "dashboard_body_urgent"
+            }else{
+                return "dashboard_body"
+            }
+        },
+        popUpChange: function (event) {
+            //再次获取时间并渲染
+            var controler = false;
+            console.log(this.data.timeId)
+            var taskList=this.data.taskList;
+            var nowTime = new Date(taskList[this.data.timeId].DDL);
+            console.log(nowTime);
+            var now_hour = nowTime.getHours().toString();
+            var now_minute = nowTime.getMinutes().toString();
+            var now_time_set = now_hour.padStart(2, '0') + ':' + now_minute.padStart(2, '0');
+            if (this.data.popChangeTimeControl == false) {
+                controler = true;
+            } else {
+                controler = false;
+            }
+            this.setData({
+                //回调数据
+                showCalendar: false,
+                task: '',
+                detailed: '',
+                year: nowTime.getFullYear(),
+                month: nowTime.getMonth() + 1,
+                date: nowTime.getDate(),
+                time: now_time_set,
+                popChangeTimeControl: controler,
+                priority_index: 0,
+                timeId:event.currentTarget.dataset.idx
+            })
+        },
+        shutDownChange:function(){
+            var controler;
+            if (this.data.popChangeTimeControl == false) {
+                controler = true;
+            } else {
+                controler = false;
+            }this.setData({
+                //回调数据
+                popChangeTimeControl: controler
+            })
+        },
+        //改时间
+        async changeCalendar(event){    
+            var taskList=this.data.taskList;
+            taskList[this.data.timeId].DDL=this.data.year+'-'+this.data.month+'-'+this.data.date+' '+this.data.time;
+            await this.updateTask(taskList[this.data.timeId]);
+            await this.onShow()
+            this.shutDownChange()
+        },
+        //获取openid(微信自带的云函数)
+        async getOpenId() {
+            wx.showLoading({
+                title: '',
+            });
+            await wx.cloud.callFunction({
+                name: 'getOpenId',
+            }).then((resp) => {
+                this.setData({
+                    openId: resp.result.openid
+                });
+                wx.hideLoading()
+            }).catch((e) => {
+                console.log(e)
+                wx.hideLoading();
+            });
+        },
+        //根据openId拉取用户数据
+        async getUser(openId) {
+            let data = null
+            wx.showLoading({
+                title: '',
+            })
+            await wx.cloud.callFunction({
+                name: 'getData',
+
+                data: {
+                    collectionName: 'Users',
+                    id: openId
+                }
+            }).then(res => {
+                console.log(res)
+                data = res.result.data[0]
+                wx.hideLoading()
+            })
+                .catch(e => {
+                    console.log(e)
+                    wx.hideLoading()
+                })
+            return data
         },
 
+
+        /**
+         * 生命周期函数--监听页面加载
+         */
+        async onLoad(options) {
+            wx.cloud.init()
+        },
+
+        //获取模板对象
+        async getTask(id) {
+            var obj = null;
+            wx.showLoading({
+                title: '',
+            })
+            await wx.cloud.callFunction({
+                name: 'getData',
+                data: {
+                    collectionName: 'Tasks',
+                    id //可支持的值: user, group, task
+                }
+            }).then((resp) => {
+                obj = resp.result
+                wx.hideLoading()
+            }).catch((e) => {
+                console.log(e)
+                wx.hideLoading()
+            });
+            return obj
+        },
         /**
          * 生命周期函数--监听页面显示
          */
         async onShow() {
-            User = wx.getStorageSync('User') != "" ? wx.getStorageSync('User') : null //从本地缓存拉取用户数据
-            //注意：若storage中不存在这一项，则wx.getStorageSync返回的不是null而是"", 所以需要加判断
-            if (User == null) {
-                User = await this.getUser(this.data.openId) //从云端拉取用户数据
-                wx.setStorageSync('User', User)
+            if (this.data.openId == "") {
+                await this.getOpenId()
             }
-        },
+            User = await this.getUser(this.data.openId) //从云端拉取用户数据
+            this.data.taskIdList=User.taskIdList
+            var List=[]
+            for (let index = 0; index < this.data.taskIdList.length; index++) {
+                const element = (await this.getTask(this.data.taskIdList[index])).data;
+                if(element.isFinished==true){
+                    continue;
+                }else{
+                    this.setData({
+                        DDL:element.DDL
+                    })
+                    element.class=this.analyzeDDL()
+                    List.push(element)
+                }
+            }
+            await this.updateUser();
+            this.setData({
+                taskList:List
+            })
+                },
+//更新Task
+    async updateTask(task) {
+        wx.showLoading({
+            title: '',
+        })
+        await wx.cloud.callFunction({
+            name: 'updateData',
+            config: {
+                env: this.data.envId
+            },
+            data: {
+                collectionName: 'Tasks',
+                id: task._id,
+                data: task
+            }
+        }).then(res => {
+            console.log('更新成功')
+            wx.hideLoading()
+        })
+            .catch(e => {
+                console.log(e)
+                wx.hideLoading()
+            })
+    },
 
+    //完成任务
+        async Finish(event){
+            var taskList=this.data.taskList;
+            for(var i = 0; i < taskList.length; i++){
+                if(i==event.currentTarget.dataset.idx){
+                    var aDDL=new Date(this.data.DDL)
+                    var now=new Date()
+                    var difference=aDDL.valueOf()-now.valueOf()
+                    if(difference>0){
+                        if (taskList[i].type=="ptask") {
+                            User.counter.ptaskCounter+=1;
+                        }else if (taskList[i].type=="gtask") {
+                            User.counter.gtaskCounter+=1;
+                        } 
+                    }else{
+                        User.counter.undoneTaskCounter+=1;
+                    }
+                    taskList[i].isFinished=true;
+                    await this.updateTask(taskList[i]);
+                    User.taskIdList.splice(i,1);
+                    break;
+                }
+            }
+            //User.taskIdList.remove(event.currentTarget.dataset.idx)
+            await this.updateUser();  
+            // wx.clearStorage()
+            // wx.clearStorageSync()              
+            await this.onShow()
+        },
+        async Delete(event){
+            var taskList=this.data.taskList;
+            for(var i = 0; i < taskList.length; i++){
+                if(i==event.currentTarget.dataset.idx){
+                    var aDDL=new Date(this.data.DDL)
+                    var now=new Date()
+                    var difference=aDDL.valueOf()-now.valueOf()
+                    if(difference<=0){
+                        User.counter.undoneTaskCounter+=1;
+                    }
+                    await this.updateTask(taskList[i]);
+                    User.taskIdList.splice(i,1);
+                    break;
+                }
+            }
+            //User.taskIdList.remove(event.currentTarget.dataset.idx)
+            await this.updateUser();            
+            await this.onShow()
+        },
+        //完成notice
+        async FinishNotice(event){
+            var taskList=this.data.taskList;
+            for(var i = 0; i < taskList.length; i++){
+                if(i==event.currentTarget.dataset.idx){
+                    // await this.updateTask(taskList[i]);
+                    User.taskIdList.splice(i,1);
+                    break;
+                }
+            }
+            // //User.taskIdList.remove(event.currentTarget.dataset.idx)            
+            // wx.clearStorage()
+            // wx.clearStorageSync()    
+            await this.updateUser();            
+            await this.onShow()
+        },
+        //改变紧急情况
+        async toUrgent(event){
+            var taskList=this.data.taskList;
+            for(var i = 0; i < taskList.length; i++){
+                if(i==event.currentTarget.dataset.idx){
+                    taskList[i].priority=taskList[i].priority==1?0:1;
+                    await this.updateTask(taskList[i]);
+                    break;
+                }
+            }        
+            await this.onShow()
+        },
         /**
          * 生命周期函数--监听页面隐藏
          */

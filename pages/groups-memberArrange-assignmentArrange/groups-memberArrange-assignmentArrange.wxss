@@ -85,6 +85,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 5;
+    word-break: break-all;
 }
 
 .handler {
@@ -119,7 +120,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 5;
-    border-bottom: thin dashed #eadada;
+    border-bottom: thin dashed #8b8b8b;
     padding: 4rpx;
 
 }
@@ -139,4 +140,19 @@
     position: absolute;
     left: 550rpx;
     bottom: 110rpx;
+}
+
+.task_right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 280;
+    height: 90%;
+    border-radius: 15rpx;
+    background: red;
+}
+
+.task_right text{
+    color: white; 
 }

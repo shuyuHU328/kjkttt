@@ -1,18 +1,28 @@
 <!--pages/assignmentArrange/assignmentArrange.wxml-->
-<l-list gap="25" bindtap="gotoAssignmentArrange" title="创建新的任务" icon="edit" icon-size="60" icon-color="#f5c181" tag-color="#f5c181" tag-position="right" tag-shape="circle" tag-content="分配任务" l-class="assignmentAdd" l-content-class="bigger_text" />
-<view class="titleBox">
-    <l-card type="primary" plaintext="{{true}}" l-class="card">
-        <view>
-            <view class="title">
-                任务1
-                <text class="handler">来自：张三 2022.4.28</text>
-            </view>
-            <text class="content">
-                任务事项
-            </text>
-            <l-icon name="success" size="80" color="#43CD80" l-class="condition"></l-icon>
+<l-list wx:if="{{isAdmin}}" gap="25" bindtap="gotoAssignmentArrange" title="创建新的任务" icon="edit" icon-size="60" icon-color="#f5c181" tag-color="#f5c181" tag-position="right" tag-shape="circle" tag-content="分配任务" l-class="assignmentAdd" l-content-class="bigger_text" />
+
+<view class="titleBox" wx:for="{{tasks}}" wx:key="id">
+
+    <l-slide-view height="300" width="750" slide-width="280">
+        <view slot="left">
+            <l-card type="primary" plaintext="{{true}}" l-class="card">
+                <view>
+                    <view class="title">
+                        {{item.title}}
+                        <text class="handler">DDL: {{item.DDL}}</text>
+                    </view>
+                    <text class="content">
+                        {{item.content}}
+                    </text>
+                    <l-icon name="success" size="80" color="#43CD80" l-class="condition" wx:if="{{item.isFinished}}"></l-icon>
+                </view>
+            </l-card>
         </view>
-    </l-card>
+        <view slot="right" class="task_right" bindtap="deleteTask" data-taskid="{{item._id}}">
+            <l-icon name="delete" size="70" color="#FFF" />
+            <text>删除</text>
+        </view>
+    </l-slide-view>
 </view>
 
 <l-popup show="{{noticeAdd}}" locked="{{true}}">
@@ -71,7 +81,7 @@
                     取消
                 </l-button>
 
-                <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset" l-class="right_size">提交</l-button>
+                <l-button size="medium" shape="semicircle" bg-color="#ffe380" open-type="reset" l-class="right_size" bind:lintap="addMemberTask">提交</l-button>
             </view>
 
             <!--调用日历组件-->
@@ -81,32 +91,3 @@
         </form>
     </view>
 </l-popup>
-
-<view class="titleBox">
-    <l-card type="primary" plaintext="{{true}}" l-class="card">
-        <view>
-            <view class="title">
-                任务2
-                <text class="handler">来自：张三 2022.4.28</text>
-            </view>
-            <text class="content">
-                任务事项
-            </text>
-            <!-- <l-icon name="notification" size="80" l-class="condition"></l-icon> -->
-        </view>
-    </l-card>
-</view>
-
-<view class="titleBox">
-    <l-card type="primary" plaintext="{{true}}" l-class="card">
-        <view>
-            <view class="title">
-                任务3
-                <text class="handler">来自：张三 2022.4.28</text>
-            </view>
-            <text class="content">
-                任务事项
-            </text>
-        </view>
-    </l-card>
-</view>

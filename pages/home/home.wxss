@@ -71,6 +71,21 @@ button_set为调整icon与文字在同一行
     border-radius: 20rpx;
     margin: 15rpx;
 }
+.dashboard_body_urgent{
+    background-color:#ec9c3b36;
+    color: #F66B0E;
+    border: 5rpx dashed #FF8D29;
+    border-radius: 20rpx;
+    margin: 15rpx;
+}
+.dashboard_body_overdue{
+    background-color:#eeedde83;
+    color: #E3CAA5;
+    border: 4rpx solid #4FD3C4;
+    border-radius: 20rpx;
+    margin: 15rpx;
+}
+
 
 .dashboard_content {
     border-bottom: thin dashed #eadada;

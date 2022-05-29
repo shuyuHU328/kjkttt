@@ -72,7 +72,7 @@
         <view class="pop-up">
             <view class="title">勾选以生效：</view>
             <checkbox-group bindchange="setDNDModeRepetition">
-                <label wx:for="{{DNDModeRepetitionOptions}}" wx:key="value" class="option">
+                <label wx:for="{{DNDModeRepetitionOptions}}" wx:key="id" class="option">
                     <view>{{item.name}}</view>
                     <view>
                         <checkbox value="{{item.value}}" checked="{{item.checked}}" />

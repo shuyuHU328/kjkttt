@@ -14,32 +14,34 @@
             </view>
 
             <!-- 下方各项设置 -->
-            <l-grid class="settings" show-border="{{true}}">
-                <l-grid-item key="one" slot="one" l-grid-item-class="settings_elem" bindtap="goRemind">
-                    <l-icon name="notification" l-class="settings_icons" color="{{colorList[user.style]}}" />
-                    <view class="settings_text">提醒</view>
-                </l-grid-item>
-                <l-grid-item key="two" slot="two" l-grid-item-class="settings_elem" bindtap="goModifyPersonalInfo">
-                    <l-icon name="user" l-class="settings_icons" color="{{colorList[user.style]}}" />
-                    <view class="settings_text">修改个人信息</view>
-                </l-grid-item>
-                <l-grid-item key="three" slot="three" l-grid-item-class="settings_elem" bindtap="goStyleSelector">
-                    <l-icon name="eye" l-class="settings_icons" color="{{colorList[user.style]}}" />
-                    <view class="settings_text">风格</view>
-                </l-grid-item>
-                <l-grid-item key="four" slot="four" l-grid-item-class="settings_elem" bindtap="goHelp">
-                    <l-icon name="help" l-class="settings_icons" color="{{colorList[user.style]}}" />
-                    <view class="settings_text">帮助</view>
-                </l-grid-item>
-                <l-grid-item key="five" slot="five" l-grid-item-class="settings_elem" bindtap="goAbout">
-                    <l-icon name="warning" l-class="settings_icons" color="{{colorList[user.style]}}" />
-                    <view class="settings_text">关于</view>
-                </l-grid-item>
-                <l-grid-item key="six" slot="six" l-grid-item-class="settings_elem" bindtap="userLogout">
-                    <l-icon name="error" l-class="settings_icons" color="{{colorList[user.style]}}" />
-                    <view class="settings_text">退出登录</view>
-                </l-grid-item>
-            </l-grid>
+            <view class='settings'>
+                <l-grid show-border="{{true}}" row-num="3">
+                    <l-grid-item key="one" slot="one" l-grid-item-class="settings_elem" bindtap="goRemind">
+                        <l-icon name="notification" l-class="settings_icons" color="{{colorList[user.style]}}" />
+                        <view class="settings_text">提醒</view>
+                    </l-grid-item>
+                    <l-grid-item key="two" slot="two" l-grid-item-class="settings_elem" bindtap="goModifyPersonalInfo">
+                        <l-icon name="user" l-class="settings_icons" color="{{colorList[user.style]}}" />
+                        <view class="settings_text">修改个人信息</view>
+                    </l-grid-item>
+                    <l-grid-item key="three" slot="three" l-grid-item-class="settings_elem" bindtap="goCounter">
+                        <l-icon name="history" l-class="settings_icons" color="{{colorList[user.style]}}" />
+                        <view class="settings_text">统计</view>
+                    </l-grid-item>
+                    <l-grid-item key="four" slot="four" l-grid-item-class="settings_elem" bindtap="goHelp">
+                        <l-icon name="help" l-class="settings_icons" color="{{colorList[user.style]}}" />
+                        <view class="settings_text">帮助</view>
+                    </l-grid-item>
+                    <l-grid-item key="five" slot="five" l-grid-item-class="settings_elem" bindtap="goAbout">
+                        <l-icon name="warning" l-class="settings_icons" color="{{colorList[user.style]}}" />
+                        <view class="settings_text">关于</view>
+                    </l-grid-item>
+                    <l-grid-item key="six" slot="six" l-grid-item-class="settings_elem" bindtap="userLogout">
+                        <l-icon name="error" l-class="settings_icons" color="{{colorList[user.style]}}" />
+                        <view class="settings_text">退出登录</view>
+                    </l-grid-item>
+                </l-grid>
+            </view>
 
             <!-- 修改个人信息弹出面板 -->
             <l-popup show="{{isModifyPersonalInfoPopup}}" locked="{{true}}">
